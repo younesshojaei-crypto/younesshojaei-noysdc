@@ -5,6 +5,7 @@ layout: main
 <div class="posts-list">
 
   {% for post in paginator.posts %}
+  {% unless post.categories contains "podcast" %}
 
   <article class="post {% unless post.img %}post-text-only{% endunless %}">
 
@@ -72,6 +73,7 @@ layout: main
 
   </article>
 
+  {% endunless %}
   {% endfor %}
 
 </div>
