@@ -13,10 +13,13 @@ permalink: /podcast/
 
     {% comment %}
       اپیزودهایی که از خود پست‌ها میان (خودکار).
-      کافیه توی هر پست جدید podcast_channel_id و podcast_episode_id و img رو ست کنی، خودش این‌جا باکس می‌سازه.
+      فقط پست‌هایی که واقعاً توی پوشه‌ی _posts/podcast/ گذاشته شدن این‌جا
+      نشون داده می‌شن؛ نه هر پستی که فقط podcast_channel_id/podcast_id
+      داشته باشه (اون فیلدها فقط برای نمایش پخش‌کننده صوتی داخل خودِ پست
+      استفاده می‌شن، نه برای اضافه شدن به این لیست).
     {% endcomment %}
     {% for post in site.posts %}
-      {% if post.podcast_channel_id or post.podcast_id %}
+      {% if post.categories contains "podcast" %}
 
       {% comment %}
         پشتیبانی از هر دو حالت:
@@ -70,7 +73,7 @@ permalink: /podcast/
 
     {% comment %}
       اپیزودهایی که پست جداگانه ندارن و می‌خوای دستی اضافه‌شون کنی.
-      این‌ها رو توی فایل _data/podcasts.yml وارد می‌کنی (پایین توضیح دادم).
+      این‌ها رو توی فایل _data/podcasts.yml وارد می‌کنی.
     {% endcomment %}
     {% for ep in site.data.podcasts %}
     <div class="podcast-card">
@@ -133,8 +136,6 @@ document.addEventListener('DOMContentLoaded', function () {
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: 22px;
 
-  /* بدون این، وقتی یک کاور با transform:scale بزرگ می‌شه، ممکنه زیر
-     کارت‌های بعدی (که در گرید دیده می‌شن) پنهان بشه و سایه‌اش دیده نشه */
   isolation: isolate;
 }
 
@@ -182,7 +183,6 @@ document.addEventListener('DOMContentLoaded', function () {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* هاور روی کاور: بزرگ‌تر می‌شه و سایه می‌گیره، بدون به‌هم‌ریختن باکس‌های کناری */
 .podcast-cover-wrap:hover {
   z-index: 20;
 }

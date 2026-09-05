@@ -17,20 +17,95 @@ permalink: /categories/
   <ul class="tags">
   {% for this_word in category_words %}
     {% if this_word != "" %}
-    <li><a href="#{{ this_word | cgi_escape }}" class="tag">{{ this_word }} <span>({{ site.categories[this_word].size }})</span></a></li>
+    <li>
+      <a
+        href="#cat-{{ this_word | cgi_escape }}"
+        class="tag category-toggle"
+        data-target="cat-{{ this_word | cgi_escape }}"
+      >
+        {{ this_word }} <span>({{ site.categories[this_word].size }})</span>
+      </a>
+    </li>
     {% endif %}
   {% endfor %}
   </ul>
 
   {% for this_word in category_words %}
     {% if this_word != "" %}
-  <h2 id="{{ this_word | cgi_escape }}">{{ this_word }}</h2>
+  <div class="category-section" id="cat-{{ this_word | cgi_escape }}" hidden>
+    <h2>{{ this_word }}</h2>
     {% for post in site.categories[this_word] %}{% if post.title != null %}
     <div class="tag-list">
         <span><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
         <small><span>| {{ post.date | date_to_string }}</span></small>
     </div>
     {% endif %}{% endfor %}
+  </div>
     {% endif %}
   {% endfor %}
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var toggles = document.querySelectorAll('.category-toggle');
+  var sections = document.querySelectorAll('.category-section');
+
+  function openOnly(id) {
+    sections.forEach(function (sec) {
+      sec.hidden = sec.id !== id;
+    });
+  }
+
+  function closeAll() {
+    sections.forEach(function (sec) {
+      sec.hidden = true;
+    });
+  }
+
+  toggles.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      var id = link.getAttribute('data-target');
+      var target = document.getElementById(id);
+      if (!target) return;
+
+      var alreadyOpen = !target.hidden;
+
+      if (alreadyOpen) {
+        closeAll();
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      } else {
+        openOnly(id);
+        history.replaceState(null, '', '#' + id);
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // اگه با یه لینک هش‌دار از یه جای دیگه سایت وارد این صفحه شدی
+  // (مثلاً از سایدبار «موضوعات»)، همون دسته رو خودکار باز کن.
+  if (window.location.hash) {
+    var targetId = window.location.hash.substring(1);
+    if (document.getElementById(targetId)) {
+      openOnly(targetId);
+    }
+  }
+});
+</script>
+
+<style>
+
+.category-section {
+  margin-top: 6px;
+  padding-top: 6px;
+}
+
+.category-section[hidden] {
+  display: none;
+}
+
+.category-toggle {
+  cursor: pointer;
+}
+
+</style>
