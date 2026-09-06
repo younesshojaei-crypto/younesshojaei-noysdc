@@ -1,0 +1,25 @@
+{
+  "name": "NOYS",
+  "short_name": "NOYS",
+  "description": "روایت و مستند درباره آدم‌ها، ماجراها و سازوکارهایی که معمولاً پشت صحنه می‌مانند",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#263959",
+  "lang": "fa",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/assets/img/template/noys-avatar.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/img/template/noys-avatar.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

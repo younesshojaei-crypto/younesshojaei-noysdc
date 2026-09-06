@@ -194,6 +194,11 @@ layout: default
       <p>
         &copy; {{ site.time | date: '%Y' }} {{ site.author }}
       </p>
+      <p class="copyright-links">
+        <a href="{{ site.baseurl }}/disclaimer/">سلب مسئولیت</a>
+        ·
+        <a href="{{ site.baseurl }}/feed.xml">فید RSS</a>
+      </p>
     </div>
 
   </footer>
@@ -349,6 +354,22 @@ layout: default
   line-height: 1.8;
 
   color: #888;
+}
+
+
+/* =========================================================
+   COPYRIGHT / FOOTER LINKS
+   ========================================================= */
+
+.copyright-links {
+  font-size: 12px;
+  color: #999;
+  margin-top: 4px;
+}
+
+.copyright-links a {
+  color: #999;
+  text-decoration: underline;
 }
 
 

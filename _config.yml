@@ -1,11 +1,10 @@
 title: NOYS
 description: >
   روایت و مستند درباره آدم‌ها، ماجراها و سازوکارهایی که معمولاً پشت صحنه می‌مانند
-
 permalink: /:title/
 baseurl: ""
 url: "https://noysdc.ir"
-site-twitter:
+social-twitter:
 
 # منطقه زمانی سایت رو ایران تنظیم می‌کنیم تا تاریخ پست‌ها با
 # ساعت واقعی ایران چک بشه، نه UTC (که باعث میشد پست‌های امروز
@@ -21,8 +20,6 @@ future: true
 author: NOYS
 author-img: template/noys-avatar.png
 about-author: "روایت‌هایی درباره پرونده‌های واقعی،<br>کسب‌وکارهای سایه، بازارهای سیاه<br>و داستان‌هایی که ارزش دوباره شنیدن دارند."
-
-social-twitter:
 social-facebook:
 social-github:
 social-linkedin:
@@ -37,21 +34,33 @@ social-telegram: "https://t.me/NOYSDC"
 social-donate: "https://daramet.com/NOYS"
 
 # Disqus
+# برای فعال کردن کامنت‌ها: یک اکانت رایگان توی disqus.com بسازید،
+# یک "site" جدید با آدرس noysdc.ir تعریف کنید، و "shortname"ای که
+# دیسکاس بهتون میده رو دقیقاً همین‌جا (بدون کوتیشن، بدون فاصله) بذارید.
+# مثال: discus-identifier: noysdc
 discus-identifier:
 
 # Tracker
+# برای فعال کردن آنالیتیکس: یک اکانت Google Analytics (GA4) یا
+# Plausible بسازید و آیدی ردیابی (شبیه G-XXXXXXXXXX برای GA4) رو
+# همین‌جا بذارید. این مقدار توی _includes/analytics.html خونده میشه.
 analytics:
 
 # Build Settings
 markdown: kramdown
-
 plugins:
   - jekyll-sitemap
   - jekyll-paginate
+  - jekyll-feed
   - jemoji
-
 paginate: 8
 paginate_path: "/page/:num"
+
+# تنظیمات فید RSS (jekyll-feed). این‌ها باعث میشن فید توی
+# noysdc.ir/feed.xml در دسترس باشه و توی هدر سایت هم اعلام بشه.
+feed:
+  path: feed.xml
+  excerpt_only: false
 
 exclude:
   - "node_modules"

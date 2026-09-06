@@ -1,0 +1,128 @@
+---
+layout: main
+---
+
+{% assign noys_channel_id = page.podcast_channel_id | default: page.podcast_id %}
+
+<article class="podcast-episode-page">
+
+  <div class="podcast-episode-cover-wrap">
+    <img
+      class="podcast-episode-cover"
+      src="{{ page.img | prepend: '/assets/img/' | relative_url }}"
+      alt="{{ page.title }}"
+    >
+  </div>
+
+  <h1 class="podcast-episode-title">{{ page.title }}</h1>
+  <span class="podcast-episode-date">{{ page.date | date: '%Y/%m/%d' }}</span>
+
+  <button
+    class="podcast-play-btn podcast-episode-play-btn"
+    type="button"
+    onclick='NOYS_PLAY_PODCAST({
+      channelId: {{ noys_channel_id | jsonify }},
+      episodeId: {{ page.podcast_episode_id | jsonify }},
+      title: {{ page.title | jsonify }},
+      cover: {{ page.img | prepend: "/assets/img/" | relative_url | jsonify }}
+    })'
+  >▶ پخش این اپیزود</button>
+
+  <div class="podcast-episode-shownotes">
+    {{ content }}
+  </div>
+
+  <p class="podcast-episode-back">
+    <a href="{{ site.baseurl }}/podcast/">← بازگشت به همه‌ی اپیزودها</a>
+  </p>
+
+</article>
+
+{% comment %}
+  Schema.org PodcastEpisode — این بلوک به گوگل کمک می‌کنه این صفحه رو
+  به‌عنوان یک اپیزود پادکست بشناسه و در نتایج جستجو با پلیر/کارت
+  اختصاصی نشون بده، نه فقط یک لینک ساده.
+{% endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "PodcastEpisode",
+  "name": {{ page.title | jsonify }},
+  "datePublished": "{{ page.date | date: '%Y-%m-%d' }}",
+  "url": "{{ page.url | prepend: site.baseurl | prepend: site.url }}",
+  "image": "{{ page.img | prepend: '/assets/img/' | prepend: site.url | relative_url }}",
+  "description": {{ page.content | strip_html | truncatewords: 40 | jsonify }},
+  "partOfSeries": {
+    "@type": "PodcastSeries",
+    "name": "NOYS",
+    "url": "{{ site.url }}{{ site.baseurl }}/podcast/"
+  },
+  "associatedMedia": {
+    "@type": "MediaObject",
+    "contentUrl": "https://castbox.fm/vh/{{ noys_channel_id }}"
+  }
+}
+</script>
+
+<style>
+
+  .podcast-episode-page {
+    max-width: 640px;
+  }
+
+  .podcast-episode-cover-wrap {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto 20px;
+  }
+
+  .podcast-episode-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+  }
+
+  .podcast-episode-title {
+    text-align: right;
+    font-size: 24px;
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+
+  .podcast-episode-date {
+    display: block;
+    text-align: right;
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 18px;
+  }
+
+  .podcast-episode-play-btn {
+    display: block;
+    margin: 0 auto 26px;
+    padding: 10px 24px;
+    font-size: 15px;
+  }
+
+  .podcast-episode-shownotes {
+    text-align: right;
+    font-size: 16px;
+    line-height: 1.9;
+    color: #444;
+  }
+
+  .podcast-episode-back {
+    text-align: right;
+    margin-top: 30px;
+  }
+
+  .podcast-episode-back a {
+    color: #263959;
+    text-decoration: underline;
+    font-size: 14px;
+  }
+
+</style>
