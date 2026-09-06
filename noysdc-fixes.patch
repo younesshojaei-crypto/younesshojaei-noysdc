@@ -1,8 +1,8 @@
 diff --git a/_layouts/main.html b/_layouts/main.html
-index b07a84e..b380a7d 100644
+index b07a84e..922f392 100644
 --- a/_layouts/main.html
 +++ b/_layouts/main.html
-@@ -227,15 +227,36 @@ layout: default
+@@ -227,15 +227,31 @@ layout: default
  }
  
  
@@ -15,11 +15,6 @@ index b07a84e..b380a7d 100644
 +  flex-direction: row;
 +  align-items: flex-start;
 +  gap: 22px;
-+
-+  padding-bottom: 24px;
-+  margin-bottom: 24px;
-+
-+  border-bottom: 1px solid #eef2f8;
 +}
 +
 +
@@ -41,7 +36,7 @@ index b07a84e..b380a7d 100644
  
    background-position: center center;
    background-repeat: no-repeat;
-@@ -243,7 +264,7 @@ layout: default
+@@ -243,7 +259,7 @@ layout: default
  
    border-radius: 8px;
  
@@ -50,7 +45,7 @@ index b07a84e..b380a7d 100644
  
    box-shadow: 0 0 0 rgba(31, 35, 46, 0);
  
-@@ -267,6 +288,12 @@ layout: default
+@@ -267,6 +283,12 @@ layout: default
     POST CONTENT
     ========================================================= */
  
@@ -63,16 +58,13 @@ index b07a84e..b380a7d 100644
  .post-content {
    width: 100%;
    padding: 0;
-@@ -349,9 +376,21 @@ layout: default
+@@ -349,9 +371,18 @@ layout: default
      margin-bottom: 30px;
    }
  
 +  .post:not(.post-text-only) {
 +    flex-direction: column;
 +    gap: 15px;
-+
-+    padding-bottom: 20px;
-+    margin-bottom: 20px;
 +  }
 +
    .post-thumbnail {
@@ -87,7 +79,7 @@ index b07a84e..b380a7d 100644
    }
  
    .post-title {
-@@ -374,7 +413,6 @@ layout: default
+@@ -374,7 +405,6 @@ layout: default
  @media (max-width: 480px) {
  
    .post-thumbnail {
@@ -96,22 +88,68 @@ index b07a84e..b380a7d 100644
    }
  
 diff --git a/_posts/podcast/2026-09-06-jim-mc-cormic.md b/_posts/podcast/2026-09-06-jim-mc-cormic.md
-index 698eff0..05b11c7 100644
+index 698eff0..734fb7b 100644
 --- a/_posts/podcast/2026-09-06-jim-mc-cormic.md
 +++ b/_posts/podcast/2026-09-06-jim-mc-cormic.md
-@@ -7,6 +7,7 @@ img: podcast/photo_2026-09-05_23-26-31.jpg
+@@ -5,8 +5,10 @@ title: "
+ date: 2026-09-06 00:47:00 +0330
+ img: podcast/photo_2026-09-05_23-26-31.jpg
  fig-caption: "بی شرمانه ترین کلاهبرداری قرن: بمب‌یاب‌های پلاستیکی ۸۵ میلیون دلاری"
- podcast_id: "984910278"
+-podcast_id: "984910278"
++podcast_channel_id: "7361321"
++podcast_episode_id: "984910278"
  categories:
 +  - podcast
    - معامله ی فریبکارانه
  tags:
    - NOYS
 diff --git a/assets/css/custom.css b/assets/css/custom.css
-index 95c9da2..dc2fae4 100644
+index 95c9da2..6b69e60 100644
 --- a/assets/css/custom.css
 +++ b/assets/css/custom.css
-@@ -103,9 +103,17 @@
+@@ -7,13 +7,36 @@
+   --noys-brand-color: 255, 242, 0; /* #FFF200 - رنگ لوگو */
+ }
+ 
+-/* کارت پست‌ها در صفحه اصلی */
+-.content-box > .post {
+-  box-shadow: 0 1px 1px 0 rgba(var(--noys-brand-color), 0.18) !important;
++/* =========================================================
++   کارت پست‌ها در صفحه اصلی (هم پست‌های تصویردار، هم متنی)
++   هر پست یک باکس شناور جدا با سایه‌ی رنگ لوگو
++   ========================================================= */
++
++.posts-list > .post {
++  background: #fff;
++  border-radius: 16px;
++
++  padding: 26px 28px;
++
++  box-shadow: 0 1px 1px 0 rgba(var(--noys-brand-color), 0.18);
++
++  transition: transform 0.3s ease, box-shadow 0.3s ease;
++}
++
++.posts-list > .post:hover {
++  transform: translateY(-4px);
++  box-shadow: 0 15px 45px -10px rgba(var(--noys-brand-color), 0.45);
+ }
+ 
+-.content-box > .post:hover {
+-  box-shadow: 0 15px 45px -10px rgba(var(--noys-brand-color), 0.4) !important;
++html[data-theme="dark"] .posts-list > .post {
++  background: #1c1f24;
++}
++
++@media (max-width: 768px) {
++  .posts-list > .post {
++    padding: 18px 18px;
++    border-radius: 12px;
++  }
+ }
+ 
+ /* بندانگشتی پست (post-thumbnail) */
+@@ -103,9 +126,17 @@
    color: #444;
    font-size: 15px;
  
@@ -129,19 +167,28 @@ index 95c9da2..dc2fae4 100644
  .contact ul li a:hover {
    background: #fff200;
    border-color: #fff200;
-@@ -272,7 +280,12 @@ html[data-theme="dark"] .contact ul li a {
- .sidebar-fixed {
-   position: fixed;
-   top: 0;
--  right: 0;
-+  /* روی صفحه‌های عریض، .wrapper با max-width:1250px وسط‌چین می‌شه؛
-+     اگه این‌جا فقط right:0 بذاریم، سایدبار به لبه‌ی واقعی مرورگر
-+     می‌چسبه (نه به لبه‌ی wrapper) و بین محتوا و سایدبار یک فاصله‌ی
-+     خالی بزرگ می‌افته. با این فرمول سایدبار همیشه دقیقاً هم‌تراز
-+     لبه‌ی wrapper می‌مونه. */
-+  right: max(0px, calc((100vw - 1250px) / 2));
-   left: auto;
-   bottom: 0;
+diff --git a/assets/css/main.css b/assets/css/main.css
+index 2e45558..4db2dec 100644
+--- a/assets/css/main.css
++++ b/assets/css/main.css
+@@ -154,9 +154,16 @@ img {
+    ========================================================= */
+ 
+ .wrapper {
+-  max-width: 1250px;
++  /* قبلاً max-width: 1250px با margin: 0 auto وسط‌چین می‌شد؛
++     اما سایدبار (.sidebar-fixed) با position:fixed به لبه‌ی واقعی
++     مرورگر می‌چسبه، نه به لبه‌ی این wrapper - پس روی مانیتورهای
++     عریض بین محتوای وسط‌چین‌شده و سایدبارِ چسبیده‌به‌لبه یک فاصله‌ی
++     خالی بزرگ می‌افتاد. حالا wrapper تمام عرض رو می‌گیره تا محتوا
++     دقیقاً تا سایدبار ادامه پیدا کنه و هیچ فاصله‌ی خالی‌ای نمونه. */
++  max-width: none;
++  width: 100%;
+   position: relative;
+-  margin: 0 auto;
++  margin: 0;
+ }
+ 
  
 diff --git a/categories.html b/categories.html
 index 602815e..251c7ca 100644
@@ -222,6 +269,44 @@ index 602815e..251c7ca 100644
  .category-section {
    margin-top: 6px;
    padding-top: 6px;
+diff --git a/index.html b/index.html
+index 6d288c5..e97972f 100644
+--- a/index.html
++++ b/index.html
+@@ -90,19 +90,10 @@ layout: main
+ 
+ .posts-list {
+   width: 100%;
+-}
+-
+-
+-/* =========================================================
+-   TEXT ONLY POSTS
+-   ========================================================= */
+-
+-.post-text-only {
+-
+-  padding: 25px 0;
+-
+-  border-bottom: 1px solid #eef2f8;
+ 
++  display: flex;
++  flex-direction: column;
++  gap: 22px;
+ }
+ 
+ 
+@@ -136,8 +127,8 @@ layout: main
+ 
+ @media (max-width: 768px) {
+ 
+-  .post-text-only {
+-    padding: 20px 0;
++  .posts-list {
++    gap: 16px;
+   }
+ 
+ }
 diff --git a/podcast.html b/podcast.html
 index 7673ba2..77a38f4 100644
 --- a/podcast.html

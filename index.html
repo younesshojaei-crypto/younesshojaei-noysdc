@@ -90,19 +90,10 @@ layout: main
 
 .posts-list {
   width: 100%;
-}
 
-
-/* =========================================================
-   TEXT ONLY POSTS
-   ========================================================= */
-
-.post-text-only {
-
-  padding: 25px 0;
-
-  border-bottom: 1px solid #eef2f8;
-
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
 }
 
 
@@ -136,8 +127,8 @@ layout: main
 
 @media (max-width: 768px) {
 
-  .post-text-only {
-    padding: 20px 0;
+  .posts-list {
+    gap: 16px;
   }
 
 }

@@ -7,13 +7,36 @@
   --noys-brand-color: 255, 242, 0; /* #FFF200 - رنگ لوگو */
 }
 
-/* کارت پست‌ها در صفحه اصلی */
-.content-box > .post {
-  box-shadow: 0 1px 1px 0 rgba(var(--noys-brand-color), 0.18) !important;
+/* =========================================================
+   کارت پست‌ها در صفحه اصلی (هم پست‌های تصویردار، هم متنی)
+   هر پست یک باکس شناور جدا با سایه‌ی رنگ لوگو
+   ========================================================= */
+
+.posts-list > .post {
+  background: #fff;
+  border-radius: 16px;
+
+  padding: 26px 28px;
+
+  box-shadow: 0 1px 1px 0 rgba(var(--noys-brand-color), 0.18);
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.content-box > .post:hover {
-  box-shadow: 0 15px 45px -10px rgba(var(--noys-brand-color), 0.4) !important;
+.posts-list > .post:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 45px -10px rgba(var(--noys-brand-color), 0.45);
+}
+
+html[data-theme="dark"] .posts-list > .post {
+  background: #1c1f24;
+}
+
+@media (max-width: 768px) {
+  .posts-list > .post {
+    padding: 18px 18px;
+    border-radius: 12px;
+  }
 }
 
 /* بندانگشتی پست (post-thumbnail) */
@@ -280,12 +303,7 @@ html[data-theme="dark"] .contact ul li a {
 .sidebar-fixed {
   position: fixed;
   top: 0;
-  /* روی صفحه‌های عریض، .wrapper با max-width:1250px وسط‌چین می‌شه؛
-     اگه این‌جا فقط right:0 بذاریم، سایدبار به لبه‌ی واقعی مرورگر
-     می‌چسبه (نه به لبه‌ی wrapper) و بین محتوا و سایدبار یک فاصله‌ی
-     خالی بزرگ می‌افته. با این فرمول سایدبار همیشه دقیقاً هم‌تراز
-     لبه‌ی wrapper می‌مونه. */
-  right: max(0px, calc((100vw - 1250px) / 2));
+  right: 0;
   left: auto;
   bottom: 0;
 
