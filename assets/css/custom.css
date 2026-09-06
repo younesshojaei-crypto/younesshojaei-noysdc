@@ -808,3 +808,47 @@ html[data-theme="dark"] .blog-tags h2 {
 html[data-theme="dark"] .tag-list a {
   color: #dcdcdc !important;
 }
+
+/* =========================================================
+   افکت ظاهر شدن هنگام اسکرول (Reveal on scroll)
+   ========================================================= */
+
+.noys-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.noys-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .noys-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* =========================================================
+   افکت پارالاکس ملایم روی عکس کاور پست (اسکرول‌محور)
+   ========================================================= */
+
+.page-cover-image {
+  overflow: hidden;
+}
+
+[data-noys-parallax] {
+  will-change: transform;
+  transform: translateY(0) scale(1.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-noys-parallax] {
+    transform: none !important;
+  }
+}

@@ -56,7 +56,7 @@
       position: fixed;
       bottom: 14px;
       inset-inline-end: 14px;
-      width: min(340px, calc(100vw - 28px));
+      width: min(400px, calc(100vw - 28px));
       background: #fff;
       border: 1px solid #eee;
       border-radius: 12px;
@@ -64,12 +64,25 @@
       z-index: 9999;
       overflow: hidden;
     }
+    .noys-floating-player.is-dragging {
+      transition: none;
+      box-shadow: 0 22px 55px rgba(0,0,0,0.28);
+    }
     .noys-floating-player-bar {
       display: flex;
       align-items: center;
       gap: 8px;
       padding: 8px 10px;
       direction: rtl;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+    }
+    .noys-floating-player.is-dragging .noys-floating-player-bar {
+      cursor: grabbing;
+    }
+    .noys-floating-player.is-dragging .noys-floating-player-frame iframe {
+      pointer-events: none;
     }
     .noys-floating-player-cover {
       width: 32px;
@@ -101,12 +114,14 @@
     }
     .noys-floating-player-frame {
       width: 100%;
+      max-height: min(420px, calc(100vh - 120px));
+      overflow-y: auto;
     }
     .noys-floating-player-frame iframe {
       display: block;
       width: 100%;
       border: 0;
-      height: 180px;
+      height: 380px;
     }
     .noys-floating-player.is-minimized .noys-floating-player-frame {
       display: none;
@@ -115,6 +130,9 @@
       .noys-floating-player {
         inset-inline-end: 8px;
         bottom: 8px;
+      }
+      .noys-floating-player-frame iframe {
+        height: 320px;
       }
     }
   </style>
@@ -139,7 +157,7 @@
         : 'https://castbox.fm/app/castbox/player/id' + opts.channelId + '?v=8.22.11&autoplay=1';
 
       fpFrame.innerHTML =
-        '<iframe src="' + src + '" frameborder="0" width="100%" height="180" ' +
+        '<iframe src="' + src + '" frameborder="0" width="100%" height="380" ' +
         'allow="autoplay" loading="lazy" title="' + (opts.title || '').replace(/"/g, '&quot;') + '"></iframe>';
 
       fp.hidden = false;
@@ -155,6 +173,143 @@
       fpFrame.innerHTML = '';
       fp.hidden = true;
     });
+
+    // ---------- قابلیت جابه‌جا کردن (درگ) پخش‌کننده‌ی شناور ----------
+    var fpBar = fp.querySelector('.noys-floating-player-bar');
+    var dragging = false;
+    var dragOffsetX = 0;
+    var dragOffsetY = 0;
+
+    function fpClamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function fpClampToViewport() {
+      // اگه قبلاً جابه‌جا شده (یعنی left/top داره)، مطمئن شو با تغییر
+      // اندازه‌ی صفحه یا باز/بسته شدن پلیر، بیرون از دید نره.
+      if (fp.style.left === '') return;
+      var rect = fp.getBoundingClientRect();
+      var maxX = window.innerWidth - rect.width - 4;
+      var maxY = window.innerHeight - rect.height - 4;
+      fp.style.left = fpClamp(rect.left, 4, Math.max(4, maxX)) + 'px';
+      fp.style.top = fpClamp(rect.top, 4, Math.max(4, maxY)) + 'px';
+    }
+
+    fpBar.addEventListener('pointerdown', function (e) {
+      if (e.target.closest('.noys-floating-player-btn')) return;
+
+      dragging = true;
+      fp.classList.add('is-dragging');
+
+      var rect = fp.getBoundingClientRect();
+      dragOffsetX = e.clientX - rect.left;
+      dragOffsetY = e.clientY - rect.top;
+
+      // از حالت چسبیده به گوشه (bottom/inset-inline-end) درش می‌آریم
+      // و با left/top آزادانه قابل جابه‌جایی می‌کنیم.
+      fp.style.left = rect.left + 'px';
+      fp.style.top = rect.top + 'px';
+      fp.style.right = 'auto';
+      fp.style.bottom = 'auto';
+      fp.style.insetInlineEnd = 'auto';
+
+      fpBar.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+
+    fpBar.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+
+      var rect = fp.getBoundingClientRect();
+      var maxX = window.innerWidth - rect.width - 4;
+      var maxY = window.innerHeight - rect.height - 4;
+
+      var x = fpClamp(e.clientX - dragOffsetX, 4, Math.max(4, maxX));
+      var y = fpClamp(e.clientY - dragOffsetY, 4, Math.max(4, maxY));
+
+      fp.style.left = x + 'px';
+      fp.style.top = y + 'px';
+    });
+
+    function fpEndDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+      fp.classList.remove('is-dragging');
+      try { fpBar.releasePointerCapture(e.pointerId); } catch (err) {}
+    }
+
+    fpBar.addEventListener('pointerup', fpEndDrag);
+    fpBar.addEventListener('pointercancel', fpEndDrag);
+
+    window.addEventListener('resize', fpClampToViewport);
+
+    // ---------- افکت ظاهر شدن هنگام اسکرول + پارالاکس عکس کاور ----------
+    var noysReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var noysParallaxEls = [];
+
+    var noysRevealObserver = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          noysRevealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }) : null;
+
+    function noysInitReveal(container) {
+      if (noysReducedMotion) return;
+      var root = container || document;
+      var selector = [
+        '.posts-list > .post',
+        '.podcast-grid > .podcast-card',
+        '.post-markdown-body > h2',
+        '.post-markdown-body > h3',
+        '.post-markdown-body > p',
+        '.post-markdown-body > img',
+        '.post-markdown-body > blockquote',
+        '.post-markdown-body > div.video-container',
+        '.category-section .tag-list',
+        '.disclaimer-section'
+      ].join(', ');
+
+      root.querySelectorAll(selector).forEach(function (el) {
+        if (el.classList.contains('noys-reveal-bound')) return;
+        el.classList.add('noys-reveal', 'noys-reveal-bound');
+        if (noysRevealObserver) {
+          noysRevealObserver.observe(el);
+        } else {
+          el.classList.add('is-visible');
+        }
+      });
+    }
+
+    function noysRefreshParallaxEls(container) {
+      var root = container || document;
+      noysParallaxEls = Array.prototype.slice.call(root.querySelectorAll('[data-noys-parallax]'));
+    }
+
+    function noysOnScrollParallax() {
+      if (noysReducedMotion || !noysParallaxEls.length) return;
+      noysParallaxEls.forEach(function (img) {
+        var rect = img.getBoundingClientRect();
+        var offset = rect.top * 0.15;
+        img.style.transform = 'translateY(' + offset.toFixed(1) + 'px) scale(1.08)';
+      });
+    }
+
+    var noysParallaxTicking = false;
+    window.addEventListener('scroll', function () {
+      if (noysParallaxTicking) return;
+      noysParallaxTicking = true;
+      requestAnimationFrame(function () {
+        noysOnScrollParallax();
+        noysParallaxTicking = false;
+      });
+    }, { passive: true });
+
+    noysInitReveal();
+    noysRefreshParallaxEls();
+    noysOnScrollParallax();
 
     // ---------- pjax ساده: فقط #noysWrapper عوض می‌شه ----------
     var wrapper = document.getElementById('noysWrapper');
@@ -201,6 +356,9 @@
           noysRunPageScripts(wrapper);
           noysSetActiveNav(url);
           window.scrollTo(0, 0);
+          noysInitReveal(wrapper);
+          noysRefreshParallaxEls(wrapper);
+          noysOnScrollParallax();
           if (push) {
             history.pushState({ noysUrl: url }, '', url);
           }

@@ -46,7 +46,7 @@ permalink: /categories/
 </section>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+(function () {
   var toggles = document.querySelectorAll('.category-toggle');
   var sections = document.querySelectorAll('.category-section');
 
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
       openOnly(targetId);
     }
   }
-});
+})();
 </script>
 
 <style>
