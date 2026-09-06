@@ -114,14 +114,14 @@
     }
     .noys-floating-player-frame {
       width: 100%;
-      max-height: min(420px, calc(100vh - 120px));
+      max-height: min(700px, calc(100vh - 120px));
       overflow-y: auto;
     }
     .noys-floating-player-frame iframe {
       display: block;
       width: 100%;
       border: 0;
-      height: 380px;
+      height: 650px;
     }
     .noys-floating-player.is-minimized .noys-floating-player-frame {
       display: none;
@@ -132,7 +132,7 @@
         bottom: 8px;
       }
       .noys-floating-player-frame iframe {
-        height: 320px;
+        height: 520px;
       }
     }
   </style>
@@ -359,6 +359,7 @@
           noysInitReveal(wrapper);
           noysRefreshParallaxEls(wrapper);
           noysOnScrollParallax();
+          if (window.NOYS_BIND_READER_CONTROLS) { window.NOYS_BIND_READER_CONTROLS(); }
           if (push) {
             history.pushState({ noysUrl: url }, '', url);
           }
@@ -389,6 +390,58 @@
 
     window.addEventListener('popstate', function () {
       noysLoadPage(window.location.href, false);
+    });
+  })();
+  </script>
+
+  <script>
+  // ---------- کنترل اندازه فونت + حالت ریدینگ‌مود ----------
+  (function () {
+    var root = document.documentElement;
+    var scale = parseFloat(localStorage.getItem('noysFontScale') || '1');
+    root.style.setProperty('--noys-scale', scale);
+
+    function bindControls() {
+      var minus = document.getElementById('noysFontMinus');
+      var plus  = document.getElementById('noysFontPlus');
+      var read  = document.getElementById('noysReadMode');
+
+      function setScale(v) {
+        scale = Math.min(1.6, Math.max(0.8, v));
+        root.style.setProperty('--noys-scale', scale);
+        localStorage.setItem('noysFontScale', scale);
+      }
+
+      if (minus && !minus.dataset.bound) {
+        minus.dataset.bound = '1';
+        minus.addEventListener('click', function () { setScale(scale - 0.1); });
+      }
+      if (plus && !plus.dataset.bound) {
+        plus.dataset.bound = '1';
+        plus.addEventListener('click', function () { setScale(scale + 0.1); });
+      }
+      if (read && !read.dataset.bound) {
+        read.dataset.bound = '1';
+        if (localStorage.getItem('noysReadingMode') === '1') {
+          document.body.classList.add('noys-reading-mode');
+        }
+        read.addEventListener('click', function () {
+          document.body.classList.toggle('noys-reading-mode');
+          localStorage.setItem(
+            'noysReadingMode',
+            document.body.classList.contains('noys-reading-mode') ? '1' : '0'
+          );
+        });
+      }
+    }
+
+    // چون سایت لینک‌های داخلی رو با fetch/AJAX لود می‌کنه (بدون رفرش کامل صفحه)،
+    // بعد از هر بار جایگزینی محتوا باید دوباره دکمه‌ها رو پیدا و فعال کنیم.
+    // این تابع رو گلوبال می‌کنیم تا noysLoadPage هم بتونه صداش کنه.
+    window.NOYS_BIND_READER_CONTROLS = bindControls;
+    bindControls();
+    window.addEventListener('popstate', function () {
+      setTimeout(bindControls, 50);
     });
   })();
   </script>
