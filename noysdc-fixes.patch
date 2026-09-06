@@ -1,0 +1,220 @@
+diff --git a/_layouts/main.html b/_layouts/main.html
+index b07a84e..190fd5a 100644
+--- a/_layouts/main.html
++++ b/_layouts/main.html
+@@ -227,15 +227,36 @@ layout: default
+ }
+ 
+ 
++/* =========================================================
++   POST ROW (پست‌هایی که عکس کاور دارن - عکس سمت راست، متن سمت چپ)
++   ========================================================= */
++
++.post:not(.post-text-only) {
++  display: flex;
++  flex-direction: row;
++  align-items: flex-start;
++  gap: 22px;
++
++  padding-bottom: 24px;
++  margin-bottom: 24px;
++
++  border-bottom: 1px solid #eef2f8;
++}
++
++
+ /* =========================================================
+    POST THUMBNAIL
++   نسبت ۱۶:۹ دقیقاً هم‌اندازه‌ی کاورهای ۱۹۲۰x۱۰۸۰ مجله هست،
++   پس با background-size: cover چیزی از عکس بریده نمی‌شه
+    ========================================================= */
+ 
+ .post-thumbnail {
+   display: block;
+ 
+-  width: 100%;
+-  height: 230px;
++  flex: 0 0 220px;
++  width: 220px;
++  aspect-ratio: 16 / 9;
++  height: auto;
+ 
+   background-position: center center;
+   background-repeat: no-repeat;
+@@ -243,7 +264,7 @@ layout: default
+ 
+   border-radius: 8px;
+ 
+-  margin-bottom: 18px;
++  margin-bottom: 0;
+ 
+   box-shadow: 0 0 0 rgba(31, 35, 46, 0);
+ 
+@@ -267,6 +288,12 @@ layout: default
+    POST CONTENT
+    ========================================================= */
+ 
++.post:not(.post-text-only) .post-content {
++  flex: 1 1 auto;
++  min-width: 0;
++  width: auto;
++}
++
+ .post-content {
+   width: 100%;
+   padding: 0;
+@@ -349,9 +376,21 @@ layout: default
+     margin-bottom: 30px;
+   }
+ 
++  .post:not(.post-text-only) {
++    flex-direction: column;
++    gap: 15px;
++
++    padding-bottom: 20px;
++    margin-bottom: 20px;
++  }
++
+   .post-thumbnail {
+-    height: 190px;
+-    margin-bottom: 15px;
++    width: 100%;
++    flex-basis: auto;
++    aspect-ratio: 16 / 9;
++    height: auto;
++
++    margin-bottom: 0;
+   }
+ 
+   .post-title {
+@@ -374,7 +413,6 @@ layout: default
+ @media (max-width: 480px) {
+ 
+   .post-thumbnail {
+-    height: 175px;
+     border-radius: 7px;
+   }
+ 
+diff --git a/assets/css/custom.css b/assets/css/custom.css
+index 95c9da2..63bef41 100644
+--- a/assets/css/custom.css
++++ b/assets/css/custom.css
+@@ -103,9 +103,17 @@
+   color: #444;
+   font-size: 15px;
+ 
++  text-decoration: none;
++
+   transition: all 0.25s ease;
+ }
+ 
++.contact ul li a:hover,
++.contact ul li a:focus,
++.contact ul li a:active {
++  text-decoration: none;
++}
++
+ .contact ul li a:hover {
+   background: #fff200;
+   border-color: #fff200;
+diff --git a/categories.html b/categories.html
+index 602815e..251c7ca 100644
+--- a/categories.html
++++ b/categories.html
+@@ -95,6 +95,74 @@ document.addEventListener('DOMContentLoaded', function () {
+ 
+ <style>
+ 
++.blog-tags .tags {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 14px;
++
++  list-style: none;
++  margin: 0 0 10px;
++  padding: 0;
++}
++
++.blog-tags .tags li {
++  list-style: none;
++}
++
++.tag.category-toggle {
++  display: flex;
++  align-items: center;
++  gap: 6px;
++
++  padding: 12px 20px;
++
++  background: #fafafa;
++  border: 1px solid #eee;
++  border-radius: 12px;
++
++  color: #333;
++  font-size: 15px;
++  font-weight: 600;
++  text-decoration: none;
++  cursor: pointer;
++
++  box-shadow: 0 1px 1px 0 rgba(255, 242, 0, 0.18);
++
++  transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease,
++    box-shadow 0.3s ease, transform 0.3s ease;
++}
++
++.tag.category-toggle span {
++  color: #999;
++  font-weight: 400;
++  font-size: 13px;
++  transition: color 0.25s ease;
++}
++
++.tag.category-toggle:hover {
++  color: #222;
++  background: #fff200;
++  border-color: #fff200;
++
++  transform: scale(1.06);
++
++  box-shadow: 0 15px 35px -10px rgba(255, 242, 0, 0.55);
++}
++
++.tag.category-toggle:hover span {
++  color: #555;
++}
++
++html[data-theme="dark"] .tag.category-toggle {
++  background: #22252b;
++  border-color: #3a3d43;
++  color: #eee;
++}
++
++html[data-theme="dark"] .tag.category-toggle:hover {
++  color: #222;
++}
++
+ .category-section {
+   margin-top: 6px;
+   padding-top: 6px;
+diff --git a/podcast.html b/podcast.html
+index 7673ba2..77a38f4 100644
+--- a/podcast.html
++++ b/podcast.html
+@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
+ }
+ 
+ .podcast-card:hover {
+-  box-shadow: 0 15px 35px -10px rgba(255, 242, 0, 0.45);
++  box-shadow: 0 15px 35px -10px rgba(255, 242, 0, 0.55);
+   z-index: 2;
+ }
+ 
+@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
+ 
+ .podcast-cover-wrap:hover .podcast-cover {
+   transform: scale(1.35);
+-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
++  box-shadow: 0 20px 45px rgba(255, 242, 0, 0.55);
+   position: relative;
+   z-index: 20;
+ }

@@ -228,14 +228,35 @@ layout: default
 
 
 /* =========================================================
+   POST ROW (پست‌هایی که عکس کاور دارن - عکس سمت راست، متن سمت چپ)
+   ========================================================= */
+
+.post:not(.post-text-only) {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 22px;
+
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+
+  border-bottom: 1px solid #eef2f8;
+}
+
+
+/* =========================================================
    POST THUMBNAIL
+   نسبت ۱۶:۹ دقیقاً هم‌اندازه‌ی کاورهای ۱۹۲۰x۱۰۸۰ مجله هست،
+   پس با background-size: cover چیزی از عکس بریده نمی‌شه
    ========================================================= */
 
 .post-thumbnail {
   display: block;
 
-  width: 100%;
-  height: 230px;
+  flex: 0 0 220px;
+  width: 220px;
+  aspect-ratio: 16 / 9;
+  height: auto;
 
   background-position: center center;
   background-repeat: no-repeat;
@@ -243,7 +264,7 @@ layout: default
 
   border-radius: 8px;
 
-  margin-bottom: 18px;
+  margin-bottom: 0;
 
   box-shadow: 0 0 0 rgba(31, 35, 46, 0);
 
@@ -266,6 +287,12 @@ layout: default
 /* =========================================================
    POST CONTENT
    ========================================================= */
+
+.post:not(.post-text-only) .post-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto;
+}
 
 .post-content {
   width: 100%;
@@ -349,9 +376,21 @@ layout: default
     margin-bottom: 30px;
   }
 
+  .post:not(.post-text-only) {
+    flex-direction: column;
+    gap: 15px;
+
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+  }
+
   .post-thumbnail {
-    height: 190px;
-    margin-bottom: 15px;
+    width: 100%;
+    flex-basis: auto;
+    aspect-ratio: 16 / 9;
+    height: auto;
+
+    margin-bottom: 0;
   }
 
   .post-title {
@@ -374,7 +413,6 @@ layout: default
 @media (max-width: 480px) {
 
   .post-thumbnail {
-    height: 175px;
     border-radius: 7px;
   }
 
