@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "پرونده کانتری کلاب بغداد: تجارت سایه در قلب منطقه سبز"
-date: 2026-09-02
+date: 2026-09-06
 img: magazine/baghdad-country-club-shadow-business-banner.jpg
 fig-caption: نمایی از مقر سابق کانتری کلاب در بغداد سال ۲۰۰۵
 podcast_channel_id: "7361321"
