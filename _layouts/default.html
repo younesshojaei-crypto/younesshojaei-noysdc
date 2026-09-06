@@ -1,31 +1,23 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 {% include head.html %}
-
 <body class="{% if page.url == '/podcast/' %}page-podcast{% endif %}">
-
   <script>window.NOYS_BASEURL = "{{ site.baseurl }}";</script>
 
   <nav class="noys-floatnav" id="noysFloatNav">
-
     <div class="noys-floatnav-inner">
-
       <button type="button" class="noys-nav-search-btn" id="noysSearchToggle" aria-label="جستجو">
         <i class="fa fa-search" aria-hidden="true"></i>
       </button>
-
       <div class="noys-nav-links">
         <a href="{{ site.baseurl }}/" class="{% if page.layout == 'main' and page.title == nil %}is-active{% endif %}">مجله</a>
         <a href="{{ site.baseurl }}/podcast/" class="{% if page.url == '/podcast/' %}is-active{% endif %}">پادکست</a>
       </div>
-
       <button type="button" class="noys-theme-toggle" aria-label="تغییر حالت روشن/تاریک">
         <i class="fa fa-sun-o noys-icon-light" aria-hidden="true"></i>
         <i class="fa fa-moon-o noys-icon-dark" aria-hidden="true"></i>
       </button>
-
     </div>
-
     <div class="noys-search-panel" id="noysSearchPanel" hidden>
       <div class="noys-search-input-wrap">
         <i class="fa fa-search" aria-hidden="true"></i>
@@ -38,15 +30,209 @@
       </div>
       <div class="noys-search-results" id="noysSearchResults"></div>
     </div>
-
   </nav>
 
-  <div class="wrapper">
+  <!-- پخش‌کننده‌ی شناور — عمداً بیرون از wrapper، تا موقع تعویض صفحه دست‌نخورده بمونه -->
+  <div class="noys-floating-player" id="noysFloatingPlayer" hidden>
+    <div class="noys-floating-player-bar">
+      <img id="noysFPCover" class="noys-floating-player-cover" src="" alt="">
+      <span id="noysFPTitle" class="noys-floating-player-title"></span>
+      <button type="button" id="noysFPMinimize" class="noys-floating-player-btn" aria-label="کوچک/بزرگ کردن">–</button>
+      <button type="button" id="noysFPClose" class="noys-floating-player-btn" aria-label="بستن پخش‌کننده">✕</button>
+    </div>
+    <div class="noys-floating-player-frame" id="noysFPFrame"></div>
+  </div>
+
+  <div class="wrapper" id="noysWrapper">
     {{ content }}
   </div>
 
   {% include analytics.html %}
   {% include javascripts.html %}
 
+  <style>
+    /* ===== پخش‌کننده‌ی شناور پادکست ===== */
+    .noys-floating-player {
+      position: fixed;
+      bottom: 14px;
+      inset-inline-end: 14px;
+      width: min(340px, calc(100vw - 28px));
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+      z-index: 9999;
+      overflow: hidden;
+    }
+    .noys-floating-player-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      direction: rtl;
+    }
+    .noys-floating-player-cover {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex: 0 0 auto;
+    }
+    .noys-floating-player-title {
+      flex: 1 1 auto;
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .noys-floating-player-btn {
+      border: none;
+      background: #f2f2f2;
+      border-radius: 6px;
+      width: 26px;
+      height: 26px;
+      cursor: pointer;
+      font-size: 13px;
+      line-height: 1;
+      flex: 0 0 auto;
+    }
+    .noys-floating-player-btn:hover {
+      background: #fff200;
+    }
+    .noys-floating-player-frame {
+      width: 100%;
+    }
+    .noys-floating-player-frame iframe {
+      display: block;
+      width: 100%;
+      border: 0;
+      height: 180px;
+    }
+    .noys-floating-player.is-minimized .noys-floating-player-frame {
+      display: none;
+    }
+    @media (max-width: 480px) {
+      .noys-floating-player {
+        inset-inline-end: 8px;
+        bottom: 8px;
+      }
+    }
+  </style>
+
+  <script>
+  (function () {
+    // ---------- کنترل‌کننده‌ی سراسری پخش‌کننده‌ی پادکست ----------
+    var fp        = document.getElementById('noysFloatingPlayer');
+    var fpFrame   = document.getElementById('noysFPFrame');
+    var fpTitle   = document.getElementById('noysFPTitle');
+    var fpCover   = document.getElementById('noysFPCover');
+    var fpMin     = document.getElementById('noysFPMinimize');
+    var fpClose   = document.getElementById('noysFPClose');
+
+    window.NOYS_PLAY_PODCAST = function (opts) {
+      opts = opts || {};
+      fpTitle.textContent = opts.title || '';
+      fpCover.src = opts.cover || '';
+
+      var src = (opts.episodeId && opts.episodeId !== '')
+        ? 'https://castbox.fm/app/castbox/player/id' + opts.channelId + '/id' + opts.episodeId + '?v=8.22.11&autoplay=1&hide_list=1'
+        : 'https://castbox.fm/app/castbox/player/id' + opts.channelId + '?v=8.22.11&autoplay=1';
+
+      fpFrame.innerHTML =
+        '<iframe src="' + src + '" frameborder="0" width="100%" height="180" ' +
+        'allow="autoplay" loading="lazy" title="' + (opts.title || '').replace(/"/g, '&quot;') + '"></iframe>';
+
+      fp.hidden = false;
+      fp.classList.remove('is-minimized');
+    };
+
+    fpMin.addEventListener('click', function () {
+      fp.classList.toggle('is-minimized');
+      fpMin.textContent = fp.classList.contains('is-minimized') ? '+' : '–';
+    });
+
+    fpClose.addEventListener('click', function () {
+      fpFrame.innerHTML = '';
+      fp.hidden = true;
+    });
+
+    // ---------- pjax ساده: فقط #noysWrapper عوض می‌شه ----------
+    var wrapper = document.getElementById('noysWrapper');
+
+    function noysRunPageScripts(container) {
+      // اسکریپت‌هایی که داخل محتوای جدید (با innerHTML) اومدن، خودشون اجرا نمی‌شن؛
+      // اینجا هرکدوم رو دستی می‌سازیم و اجرا می‌کنیم.
+      container.querySelectorAll('script').forEach(function (oldScript) {
+        var s = document.createElement('script');
+        if (oldScript.src) {
+          s.src = oldScript.src;
+        } else {
+          s.textContent = oldScript.textContent;
+        }
+        oldScript.replaceWith(s);
+      });
+    }
+
+    function noysSetActiveNav(url) {
+      document.querySelectorAll('.noys-nav-links a').forEach(function (a) {
+        var isPodcast = url.indexOf('/podcast/') !== -1;
+        var isHome = url === (window.NOYS_BASEURL + '/') || url === window.NOYS_BASEURL;
+        if (a.getAttribute('href').indexOf('/podcast/') !== -1) {
+          a.classList.toggle('is-active', isPodcast);
+        } else {
+          a.classList.toggle('is-active', isHome && !isPodcast);
+        }
+      });
+    }
+
+    function noysLoadPage(url, push) {
+      fetch(url, { credentials: 'same-origin' })
+        .then(function (res) { return res.text(); })
+        .then(function (html) {
+          var doc = new DOMParser().parseFromString(html, 'text/html');
+          var newWrapper = doc.getElementById('noysWrapper');
+          if (!newWrapper) {
+            // اگه صفحه‌ی مقصد ساختار wrapper نداشت، برای اطمینان رفرش کامل بزن
+            window.location.href = url;
+            return;
+          }
+          wrapper.innerHTML = newWrapper.innerHTML;
+          document.title = doc.title;
+          noysRunPageScripts(wrapper);
+          noysSetActiveNav(url);
+          window.scrollTo(0, 0);
+          if (push) {
+            history.pushState({ noysUrl: url }, '', url);
+          }
+        })
+        .catch(function () {
+          window.location.href = url; // در صورت خطا، رفتار عادی مرورگر
+        });
+    }
+
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('a');
+      if (!a) return;
+      if (a.target === '_blank' || a.hasAttribute('download')) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#') return;
+
+      var url = new URL(href, window.location.href);
+      if (url.origin !== window.location.origin) return; // لینک خارجی
+      if (/\.(pdf|zip|jpg|jpeg|png|gif|svg|mp3|mp4)$/i.test(url.pathname)) return;
+
+      e.preventDefault();
+      if (url.href !== window.location.href) {
+        noysLoadPage(url.href, true);
+      }
+    });
+
+    window.addEventListener('popstate', function () {
+      noysLoadPage(window.location.href, false);
+    });
+  })();
+  </script>
 </body>
 </html>

@@ -20,45 +20,39 @@ permalink: /podcast/
     {% endcomment %}
     {% for post in site.posts %}
       {% if post.categories contains "podcast" %}
+        {% comment %}
+          پشتیبانی از هر دو حالت:
+          - podcast_channel_id + podcast_episode_id (روش درست و جدید)
+          - podcast_id قدیمی (فقط آیدی کانال) برای سازگاری با پست‌های قبلی
+        {% endcomment %}
+        {% assign noys_channel_id = post.podcast_channel_id | default: post.podcast_id %}
 
-      {% comment %}
-        پشتیبانی از هر دو حالت:
-        - podcast_channel_id + podcast_episode_id (روش درست و جدید)
-        - podcast_id قدیمی (فقط آیدی کانال) برای سازگاری با پست‌های قبلی
-      {% endcomment %}
-      {% assign noys_channel_id = post.podcast_channel_id | default: post.podcast_id %}
+        <div class="podcast-card">
 
-      <div class="podcast-card">
-        <div class="podcast-cover-wrap">
-          <img
-            class="podcast-cover"
-            src="{{ post.img | prepend: '/assets/img/' | relative_url }}"
-            alt="{{ post.title }}"
-            loading="lazy"
-          >
-        </div>
-        <h3 class="podcast-card-title">{{ post.title }}</h3>
-        <span class="podcast-card-date">{{ post.date | date: '%Y/%m/%d' }}</span>
-        <button class="podcast-play-btn" type="button">▶ پخش اپیزود</button>
-        <div class="podcast-player" hidden>
-          {% if post.podcast_episode_id and post.podcast_episode_id != "" %}
-          <iframe
-            src="https://castbox.fm/app/castbox/player/id{{ noys_channel_id }}/id{{ post.podcast_episode_id }}?v=8.22.11&autoplay=0&hide_list=1"
-            frameborder="0"
-            width="100%"
-            height="180"
-            loading="lazy"
-            title="{{ post.title }}"
-          ></iframe>
-          {% else %}
-          <iframe
-            src="https://castbox.fm/app/castbox/player/id{{ noys_channel_id }}?v=8.22.11&autoplay=0"
-            frameborder="0"
-            width="100%"
-            height="180"
-            loading="lazy"
-            title="{{ post.title }}"
-          ></iframe>
+          <div class="podcast-cover-wrap">
+            <img
+              class="podcast-cover"
+              src="{{ post.img | prepend: '/assets/img/' | relative_url }}"
+              alt="{{ post.title }}"
+              loading="lazy"
+            >
+          </div>
+
+          <h3 class="podcast-card-title">{{ post.title }}</h3>
+          <span class="podcast-card-date">{{ post.date | date: '%Y/%m/%d' }}</span>
+
+          <button
+            class="podcast-play-btn"
+            type="button"
+            onclick='NOYS_PLAY_PODCAST({
+              channelId: {{ noys_channel_id | jsonify }},
+              episodeId: {{ post.podcast_episode_id | jsonify }},
+              title: {{ post.title | jsonify }},
+              cover: {{ post.img | prepend: "/assets/img/" | relative_url | jsonify }}
+            })'
+          >▶ پخش اپیزود</button>
+
+          {% if post.podcast_episode_id == nil or post.podcast_episode_id == "" %}
           <p class="podcast-player-note">
             ⚠️ آیدی اختصاصی این اپیزود ثبت نشده، پس فعلاً کل کانال پخش می‌شه.
             برای پخش دقیق همین اپیزود، آیدی اپیزود رو از دکمه‌ی Share
@@ -66,8 +60,8 @@ permalink: /podcast/
             <code>podcast_episode_id</code> این پست بذار.
           </p>
           {% endif %}
+
         </div>
-      </div>
       {% endif %}
     {% endfor %}
 
@@ -76,169 +70,147 @@ permalink: /podcast/
       این‌ها رو توی فایل _data/podcasts.yml وارد می‌کنی.
     {% endcomment %}
     {% for ep in site.data.podcasts %}
-    <div class="podcast-card">
-      <div class="podcast-cover-wrap">
-        <img
-          class="podcast-cover"
-          src="{{ ep.img | prepend: '/assets/img/' | relative_url }}"
-          alt="{{ ep.title }}"
-        >
+      <div class="podcast-card">
+
+        <div class="podcast-cover-wrap">
+          <img
+            class="podcast-cover"
+            src="{{ ep.img | prepend: '/assets/img/' | relative_url }}"
+            alt="{{ ep.title }}"
+          >
+        </div>
+
+        <h3 class="podcast-card-title">{{ ep.title }}</h3>
+        <span class="podcast-card-date">{{ ep.date }}</span>
+
+        <button
+          class="podcast-play-btn"
+          type="button"
+          onclick='NOYS_PLAY_PODCAST({
+            channelId: {{ ep.channelId | jsonify }},
+            episodeId: {{ ep.episodeId | jsonify }},
+            title: {{ ep.title | jsonify }},
+            cover: {{ ep.img | prepend: "/assets/img/" | relative_url | jsonify }}
+          })'
+        >▶ پخش اپیزود</button>
+
       </div>
-      <h3 class="podcast-card-title">{{ ep.title }}</h3>
-      <span class="podcast-card-date">{{ ep.date }}</span>
-      <button class="podcast-play-btn" type="button">▶ پخش اپیزود</button>
-      <div class="podcast-player" hidden>
-        {{ ep.embed }}
-      </div>
-    </div>
     {% endfor %}
 
   </div>
 
 </section>
 
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  document.querySelectorAll('.podcast-card').forEach(function (card) {
-    var btn = card.querySelector('.podcast-play-btn');
-    var player = card.querySelector('.podcast-player');
-    btn.addEventListener('click', function () {
-      var isHidden = player.hasAttribute('hidden');
-      if (isHidden) {
-        player.removeAttribute('hidden');
-        btn.textContent = '✕ بستن پخش‌کننده';
-      } else {
-        player.setAttribute('hidden', '');
-        btn.textContent = '▶ پخش اپیزود';
-      }
-    });
-  });
-});
-</script>
-
-
 <style>
 
-.podcast-page-title {
-  text-align: right;
-  margin-bottom: 6px;
-}
-
-.podcast-page-desc {
-  text-align: right;
-  color: #777;
-  margin-bottom: 26px;
-}
-
-.podcast-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 22px;
-
-  isolation: isolate;
-}
-
-.podcast-card {
-  position: relative;
-  background: #fafafa;
-  border: 1px solid #eee;
-  border-radius: 12px;
-  padding: 16px;
-  text-align: center;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  overflow: visible;
-
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.podcast-card:hover {
-  box-shadow: 0 15px 35px -10px rgba(255, 242, 0, 0.55);
-  z-index: 2;
-}
-
-.podcast-cover-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  overflow: visible;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 14px;
-  z-index: 1;
-}
-
-.podcast-cover {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 10px;
-  display: block;
-
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.podcast-cover-wrap:hover {
-  z-index: 20;
-}
-
-.podcast-cover-wrap:hover .podcast-cover {
-  transform: scale(1.35);
-  box-shadow: 0 20px 45px rgba(255, 242, 0, 0.55);
-  position: relative;
-  z-index: 20;
-}
-
-.podcast-card-title {
-  font-size: 15px;
-  line-height: 1.6;
-  margin: 0 0 6px;
-}
-
-.podcast-card-date {
-  font-size: 12px;
-  color: #999;
-  margin-bottom: 12px;
-}
-
-.podcast-play-btn {
-  border: 1px solid #ddd;
-  background: #fff;
-  border-radius: 20px;
-  padding: 6px 16px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.podcast-play-btn:hover {
-  background: #fff200;
-  border-color: #fff200;
-}
-
-.podcast-player {
-  width: 100%;
-  margin-top: 14px;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.podcast-player iframe {
-  display: block;
-  width: 100%;
-  border: 0;
-}
-
-@media (max-width: 480px) {
-  .podcast-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
+  .podcast-page-title {
+    text-align: right;
+    margin-bottom: 6px;
   }
-}
+
+  .podcast-page-desc {
+    text-align: right;
+    color: #777;
+    margin-bottom: 26px;
+  }
+
+  .podcast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 22px;
+    isolation: isolate;
+  }
+
+  .podcast-card {
+    position: relative;
+    background: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: visible;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .podcast-card:hover {
+    box-shadow: 0 15px 35px -10px rgba(255, 242, 0, 0.55);
+    z-index: 2;
+  }
+
+  .podcast-cover-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    z-index: 1;
+  }
+
+  .podcast-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .podcast-cover-wrap:hover {
+    z-index: 20;
+  }
+
+  .podcast-cover-wrap:hover .podcast-cover {
+    transform: scale(1.35);
+    box-shadow: 0 20px 45px rgba(255, 242, 0, 0.55);
+    position: relative;
+    z-index: 20;
+  }
+
+  .podcast-card-title {
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0 0 6px;
+  }
+
+  .podcast-card-date {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 12px;
+  }
+
+  .podcast-play-btn {
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .podcast-play-btn:hover {
+    background: #fff200;
+    border-color: #fff200;
+  }
+
+  .podcast-player-note {
+    font-size: 11px;
+    color: #999;
+    margin-top: 10px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 480px) {
+    .podcast-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+  }
 
 </style>
