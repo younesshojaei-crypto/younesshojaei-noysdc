@@ -17,6 +17,11 @@
         <i class="fa fa-sun-o noys-icon-light" aria-hidden="true"></i>
         <i class="fa fa-moon-o noys-icon-dark" aria-hidden="true"></i>
       </button>
+      <button type="button" class="noys-reader-btn" id="noysFontMinus" aria-label="کوچک‌تر کردن فونت">A-</button>
+      <button type="button" class="noys-reader-btn" id="noysFontPlus" aria-label="بزرگ‌تر کردن فونت">A+</button>
+      <button type="button" class="noys-reader-btn noys-read-mode-btn" id="noysReadMode" aria-label="حالت ریدینگ">
+        <i class="fa fa-book" aria-hidden="true"></i>
+      </button>
     </div>
     <div class="noys-search-panel" id="noysSearchPanel" hidden>
       <div class="noys-search-input-wrap">
@@ -424,13 +429,12 @@
         read.dataset.bound = '1';
         if (localStorage.getItem('noysReadingMode') === '1') {
           document.body.classList.add('noys-reading-mode');
+          read.classList.add('is-active');
         }
         read.addEventListener('click', function () {
-          document.body.classList.toggle('noys-reading-mode');
-          localStorage.setItem(
-            'noysReadingMode',
-            document.body.classList.contains('noys-reading-mode') ? '1' : '0'
-          );
+          var isOn = document.body.classList.toggle('noys-reading-mode');
+          read.classList.toggle('is-active', isOn);
+          localStorage.setItem('noysReadingMode', isOn ? '1' : '0');
         });
       }
     }

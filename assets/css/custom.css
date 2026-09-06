@@ -503,6 +503,90 @@ body {
   box-shadow: 0 6px 16px rgba(255, 242, 0, 0.45);
 }
 
+.noys-reader-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+
+  border-radius: 50%;
+  border: 1px solid #eee;
+  background: #fafafa;
+  cursor: pointer;
+
+  font-size: 13px;
+  font-weight: 700;
+  color: #444;
+
+  transition: all 0.2s ease;
+}
+
+.noys-reader-btn:hover {
+  background: #fff200;
+  border-color: #fff200;
+  color: #222;
+  box-shadow: 0 6px 16px rgba(255, 242, 0, 0.45);
+}
+
+.noys-read-mode-btn.is-active {
+  background: #fff200;
+  border-color: #fff200;
+  color: #222;
+}
+
+@media (max-width: 768px) {
+  .noys-reader-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 11px;
+  }
+}
+
+html[data-theme="dark"] .noys-reader-btn {
+  background: #22252b !important;
+  border-color: #3a3d43 !important;
+  color: #eee !important;
+}
+
+/* =========================================================
+   NOYS - اندازه فونت + حالت ریدینگ (سایت‌وایاد، هوم‌پیج + پست‌ها)
+   ========================================================= */
+
+.post-markdown-body,
+.posts-list .post-content p {
+  font-size: calc(16px * var(--noys-scale, 1));
+}
+
+.post-markdown-body p,
+.post-markdown-body li,
+.post-markdown-body blockquote {
+  font-size: inherit;
+}
+
+.posts-list .post-title a {
+  font-size: calc(1em * var(--noys-scale, 1));
+}
+
+body.noys-reading-mode .post-markdown-body {
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 2;
+  background: #faf6ec;
+  padding: 24px;
+  border-radius: 8px;
+}
+
+body.noys-reading-mode .posts-list .post-content p {
+  line-height: 2;
+}
+
+html[data-theme="dark"] body.noys-reading-mode .post-markdown-body {
+  background: #24211a;
+}
+
 .noys-nav-links {
   display: flex;
   gap: 6px;
