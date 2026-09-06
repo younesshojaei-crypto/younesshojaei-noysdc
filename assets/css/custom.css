@@ -893,6 +893,10 @@ html[data-theme="dark"] .tag-list a {
   color: #dcdcdc !important;
 }
 
+html[data-theme="dark"] .noys-decor {
+  color: #cfd3da !important;
+}
+
 /* =========================================================
    افکت ظاهر شدن هنگام اسکرول (Reveal on scroll)
    ========================================================= */

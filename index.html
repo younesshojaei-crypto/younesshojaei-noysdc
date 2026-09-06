@@ -4,8 +4,24 @@ layout: main
 
 <div class="posts-list">
 
+  {% assign decorCounter = 0 %}
+  {% assign visibleCounter = 0 %}
   {% for post in paginator.posts %}
   {% unless post.categories contains "podcast" %}
+
+  {% assign visibleCounter = visibleCounter | plus: 1 %}
+
+  {% if visibleCounter > 1 %}
+    {% assign groupRem = visibleCounter | minus: 1 %}
+    {% assign groupRem = groupRem | modulo: 3 %}
+    {% if groupRem == 0 %}
+      {% assign decorIndex = decorCounter | modulo: 4 %}
+      <div class="noys-decor" data-noys-parallax>
+        {% include decor-svg.html icon=decorIndex %}
+      </div>
+      {% assign decorCounter = decorCounter | plus: 1 %}
+    {% endif %}
+  {% endif %}
 
   <article class="post {% unless post.img %}post-text-only{% endunless %}">
 
@@ -131,6 +147,32 @@ layout: main
     gap: 16px;
   }
 
+}
+
+/* =========================================================
+   NOYS - آیکون‌های تزئینیِ بین پست‌ها
+   ========================================================= */
+
+.noys-decor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0 18px;
+  color: #263959;
+  opacity: 0.82;
+}
+
+.noys-decor-svg {
+  width: 108px;
+  height: 108px;
+  overflow: visible;
+}
+
+@media (max-width: 768px) {
+  .noys-decor-svg {
+    width: 84px;
+    height: 84px;
+  }
 }
 
 </style>

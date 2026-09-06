@@ -1,0 +1,63 @@
+{% comment %}
+  آیکون‌های تزئینیِ SVG که بین پست‌های صفحه اصلی می‌شینن.
+  include.icon باید عدد ۰ تا ۳ باشه:
+  0 = پرونده/کاغذ مچاله‌شده
+  1 = میکروفون پادکست
+  2 = خودکار و دفترچه
+  3 = بورد کارآگاهی با ریسمان قرمز
+{% endcomment %}
+
+{% case include.icon %}
+
+{% when 0 %}
+<svg class="noys-decor-svg" viewBox="0 0 160 160" width="140" height="140" aria-hidden="true" focusable="false">
+  <path d="M20,50 Q20,42 28,42 L74,42 L86,54 L132,54 Q140,54 140,62 L140,130 Q140,138 132,138 L28,138 Q20,138 20,130 Z"
+        fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M34,58 L40,24 L50,40 L58,16 L68,36 L78,18 L88,38 L98,20 L108,40 L118,20 L124,58"
+        fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M46,20 L56,30 M46,30 L56,20" stroke="var(--noys-decor-accent, #fff200)" stroke-width="4" stroke-linecap="round"/>
+</svg>
+
+{% when 1 %}
+<svg class="noys-decor-svg" viewBox="0 0 160 160" width="140" height="140" aria-hidden="true" focusable="false">
+  <rect x="65" y="18" width="30" height="60" rx="15" fill="none" stroke="currentColor" stroke-width="3"/>
+  <line x1="71" y1="33" x2="89" y2="33" stroke="currentColor" stroke-width="2"/>
+  <line x1="71" y1="43" x2="89" y2="43" stroke="currentColor" stroke-width="2"/>
+  <line x1="71" y1="53" x2="89" y2="53" stroke="currentColor" stroke-width="2"/>
+  <line x1="71" y1="63" x2="89" y2="63" stroke="currentColor" stroke-width="2"/>
+  <path d="M50,66 A30,30 0 0 0 110,66" fill="none" stroke="currentColor" stroke-width="3"/>
+  <line x1="80" y1="96" x2="80" y2="122" stroke="currentColor" stroke-width="3"/>
+  <line x1="58" y1="130" x2="102" y2="130" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="112" cy="26" r="6" fill="var(--noys-decor-accent, #fff200)"/>
+  <path d="M100,26 A12,12 0 0 1 112,14" fill="none" stroke="var(--noys-decor-accent, #fff200)" stroke-width="2" stroke-linecap="round"/>
+</svg>
+
+{% when 2 %}
+<svg class="noys-decor-svg" viewBox="0 0 160 160" width="140" height="140" aria-hidden="true" focusable="false">
+  <rect x="25" y="30" width="90" height="110" rx="4" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle cx="25" cy="45"  r="3" fill="currentColor"/>
+  <circle cx="25" cy="62"  r="3" fill="currentColor"/>
+  <circle cx="25" cy="79"  r="3" fill="currentColor"/>
+  <circle cx="25" cy="96"  r="3" fill="currentColor"/>
+  <circle cx="25" cy="113" r="3" fill="currentColor"/>
+  <line x1="45" y1="55"  x2="100" y2="55"  stroke="currentColor" stroke-width="1.5"/>
+  <line x1="45" y1="70"  x2="100" y2="70"  stroke="currentColor" stroke-width="1.5"/>
+  <line x1="45" y1="85"  x2="90"  y2="85"  stroke="currentColor" stroke-width="1.5"/>
+  <line x1="45" y1="100" x2="100" y2="100" stroke="currentColor" stroke-width="1.5"/>
+  <line x1="40" y1="142" x2="128" y2="54" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+  <path d="M120,46 L136,44 L128,60 Z" fill="var(--noys-decor-accent, #fff200)"/>
+</svg>
+
+{% when 3 %}
+<svg class="noys-decor-svg" viewBox="0 0 160 160" width="140" height="140" aria-hidden="true" focusable="false">
+  <rect x="15" y="15" width="130" height="130" rx="6" fill="none" stroke="currentColor" stroke-width="3"/>
+  <rect x="30" y="30" width="28" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect x="95" y="25" width="30" height="22" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect x="60" y="90" width="32" height="24" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path d="M44,30 L110,25 L76,90 Z" fill="none" stroke="#c0392b" stroke-width="1.5"/>
+  <circle cx="44"  cy="30" r="3.5" fill="var(--noys-decor-accent, #fff200)"/>
+  <circle cx="110" cy="25" r="3.5" fill="var(--noys-decor-accent, #fff200)"/>
+  <circle cx="76"  cy="90" r="3.5" fill="var(--noys-decor-accent, #fff200)"/>
+</svg>
+
+{% endcase %}
