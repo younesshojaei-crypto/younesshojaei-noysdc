@@ -7,6 +7,7 @@ img: podcast/photo_2026-09-05_23-26-31.jpg
 fig-caption: "بی شرمانه ترین کلاهبرداری قرن: بمب‌یاب‌های پلاستیکی ۸۵ میلیون دلاری"
 podcast_id: "984910278"
 categories:
+  - podcast
   - معامله ی فریبکارانه
 tags:
   - NOYS

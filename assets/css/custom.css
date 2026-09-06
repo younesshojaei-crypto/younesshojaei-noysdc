@@ -280,7 +280,12 @@ html[data-theme="dark"] .contact ul li a {
 .sidebar-fixed {
   position: fixed;
   top: 0;
-  right: 0;
+  /* روی صفحه‌های عریض، .wrapper با max-width:1250px وسط‌چین می‌شه؛
+     اگه این‌جا فقط right:0 بذاریم، سایدبار به لبه‌ی واقعی مرورگر
+     می‌چسبه (نه به لبه‌ی wrapper) و بین محتوا و سایدبار یک فاصله‌ی
+     خالی بزرگ می‌افته. با این فرمول سایدبار همیشه دقیقاً هم‌تراز
+     لبه‌ی wrapper می‌مونه. */
+  right: max(0px, calc((100vw - 1250px) / 2));
   left: auto;
   bottom: 0;
 
