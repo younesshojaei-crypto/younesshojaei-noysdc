@@ -2,6 +2,7 @@
 layout: post
 title: "سلب مسئولیت و درباره‌ی رسانه NOYS"
 date: 2026-09-05 12:00:00 +0330
+img: magazine/stop-road-sign-at-urban-intersection-shallow-depth-of_81647922_medium.jpg
 hide-newsletter: true
 categories:
   - سلب_مسئولیت
