@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "پرونده بلک‌واتر: تجار مرگ و ارتش‌های خصوصی در جنگ عراق"
-date: 2026-09-05
+date: 2026-09-06
 img: magazine/Contractors-from-Blackwat-001.avif
 fig-caption: خودروهای زرهی و نیروهای پیمانکار امنیتی بلک‌واتر در خیابان‌های بغداد
 podcast_channel_id:
