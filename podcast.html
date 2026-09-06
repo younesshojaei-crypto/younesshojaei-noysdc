@@ -9,6 +9,31 @@ permalink: /podcast/
   <h1 class="podcast-page-title">🎧 پادکست NOYS</h1>
   <p class="podcast-page-desc">همه اپیزودها در یک صفحه — روی هر باکس کلیک کن تا پخش‌کننده باز بشه.</p>
 
+  <div class="noys-arc-clock" id="noysArcClock" aria-hidden="true">
+    <div class="noys-arc-clock-pill" id="noysArcClockPill">--:-- --</div>
+    <svg class="noys-arc-clock-svg" viewBox="0 0 900 260" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <linearGradient id="noysArcGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"  stop-color="#fde047"/>
+          <stop offset="25%" stop-color="#fb923c"/>
+          <stop offset="50%" stop-color="#e0479a"/>
+          <stop offset="75%" stop-color="#7c3aed"/>
+          <stop offset="100%" stop-color="#1e2260"/>
+        </linearGradient>
+      </defs>
+      <path
+        id="noysArcPath"
+        d="M 40 210 C 240 60, 660 60, 860 210"
+        fill="none"
+        stroke="url(#noysArcGradient)"
+        stroke-width="8"
+        stroke-linecap="round"
+      ></path>
+      <circle id="noysArcThumbHalo" r="26" fill="#ffffff"></circle>
+      <circle id="noysArcThumb" r="15" fill="#8b2fc9"></circle>
+    </svg>
+  </div>
+
   <div class="podcast-grid">
 
     {% comment %}
@@ -213,4 +238,79 @@ permalink: /podcast/
     }
   }
 
+  /* ===== ساعت تزئینیِ قوسی ===== */
+  .noys-arc-clock {
+    position: relative;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto 34px;
+  }
+
+  .noys-arc-clock-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  .noys-arc-clock-pill {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background: #fff;
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #222;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  #noysArcThumbHalo {
+    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.25));
+  }
+
 </style>
+
+<script>
+(function () {
+  var path = document.getElementById('noysArcPath');
+  var thumb = document.getElementById('noysArcThumb');
+  var halo = document.getElementById('noysArcThumbHalo');
+  var pill = document.getElementById('noysArcClockPill');
+  var clockWrap = document.getElementById('noysArcClock');
+  if (!path || !thumb || !halo || !pill || !clockWrap) return;
+
+  var totalLength = path.getTotalLength();
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function tick() {
+    var now = new Date();
+    var minutesOfDay = now.getHours() * 60 + now.getMinutes();
+    var fraction = minutesOfDay / 1440; // 0 تا 1 در طول یک شبانه‌روز
+
+    var point = path.getPointAtLength(fraction * totalLength);
+    thumb.setAttribute('cx', point.x);
+    thumb.setAttribute('cy', point.y);
+    halo.setAttribute('cx', point.x);
+    halo.setAttribute('cy', point.y);
+
+    // موقعیت افقی قرص ساعت رو هم‌راستا با تامب می‌کنیم (به‌صورت درصد از عرض ویوباکس)
+    var pctX = (point.x / 900) * 100;
+    pill.style.left = pctX + '%';
+
+    var hours24 = now.getHours();
+    var ampm = hours24 >= 12 ? 'PM' : 'AM';
+    var hours12 = hours24 % 12;
+    if (hours12 === 0) hours12 = 12;
+    pill.textContent = hours12 + ':' + pad(now.getMinutes()) + ' ' + ampm;
+  }
+
+  tick();
+  setInterval(tick, 15000);
+})();
+</script>
