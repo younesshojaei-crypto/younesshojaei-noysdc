@@ -65,13 +65,13 @@
       background: #fff;
       border: 1px solid #eee;
       border-radius: 12px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+      box-shadow: 0 15px 40px rgba(255, 242, 0, 0.35);
       z-index: 9999;
       overflow: hidden;
     }
     .noys-floating-player.is-dragging {
       transition: none;
-      box-shadow: 0 22px 55px rgba(0,0,0,0.28);
+      box-shadow: 0 22px 55px rgba(255, 242, 0, 0.5);
     }
     .noys-floating-player-bar {
       display: flex;
@@ -131,10 +131,17 @@
     .noys-floating-player.is-minimized .noys-floating-player-frame {
       display: none;
     }
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       .noys-floating-player {
         inset-inline-end: 8px;
+        width: calc(100vw - 16px);
+      }
+    }
+    @media (max-width: 480px) {
+      .noys-floating-player {
+        inset-inline-end: 6px;
         bottom: 8px;
+        width: calc(100vw - 12px);
       }
       .noys-floating-player-frame iframe {
         height: 320px;

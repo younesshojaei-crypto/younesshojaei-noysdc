@@ -1,0 +1,209 @@
+---
+layout: default
+title: "صفحه پیدا نشد"
+permalink: /404.html
+---
+
+<section class="noys-404">
+
+  <div class="noys-404-scene" aria-hidden="true">
+    <div class="noys-404-rail">
+      <span>۰</span><span>۴</span><span>۰</span><span>۴</span><span>۰</span><span>۴</span>
+    </div>
+    <div class="noys-404-cube">
+      <div class="face face-top">۰</div>
+      <div class="face face-bottom">۴</div>
+      <div class="face face-front">۴</div>
+      <div class="face face-back">۰</div>
+      <div class="face face-right">۴</div>
+      <div class="face face-left">۰</div>
+    </div>
+  </div>
+
+  <h1 class="noys-404-title">این صفحه پیدا نشد</h1>
+  <p class="noys-404-desc">
+    ظاهراً لینکی که دنبالش بودی جابه‌جا شده یا اصلاً وجود نداشته.
+    نگران نباش، می‌تونی از اینجا برگردی.
+  </p>
+
+  <a href="{{ site.baseurl }}/" class="noys-404-btn">
+    <span>بازگشت به صفحه اصلی</span>
+  </a>
+
+</section>
+
+<style>
+
+  .noys-404 {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px 80px;
+  }
+
+  /* ===== صحنه‌ی سه‌بعدی ===== */
+  .noys-404-scene {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    height: 220px;
+    margin-bottom: 30px;
+    perspective: 1000px;
+    overflow: hidden;
+  }
+
+  .noys-404-rail {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 44px;
+    margin-top: -22px;
+    background: repeating-linear-gradient(
+      to left,
+      #1a1a1a 0 90px,
+      #0d0d0d 90px 96px
+    );
+    border-radius: 999px;
+    transform: translateX(-50%) rotateX(55deg);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    animation: noys-rail-scroll 2.4s linear infinite;
+  }
+
+  .noys-404-rail span {
+    font-weight: 800;
+    font-size: 22px;
+    color: #fff200;
+    opacity: 0.85;
+    text-shadow: 0 0 10px rgba(255, 242, 0, 0.6);
+  }
+
+  @keyframes noys-rail-scroll {
+    from { transform: translateX(-50%) rotateX(55deg); }
+    to   { transform: translateX(calc(-50% - 96px)) rotateX(55deg); }
+  }
+
+  .noys-404-cube {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 96px;
+    height: 96px;
+    margin: -48px 0 0 -48px;
+    transform-style: preserve-3d;
+    animation: noys-cube-roll 2.4s cubic-bezier(.5, -0.3, .5, 1.3) infinite;
+  }
+
+  .noys-404-cube .face {
+    position: absolute;
+    width: 96px;
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: 800;
+    background: rgba(20, 20, 20, 0.92);
+    border: 1px solid rgba(255, 242, 0, 0.55);
+    color: #fff200;
+    box-shadow: inset 0 0 25px rgba(255, 242, 0, 0.12);
+  }
+
+  .face-front  { transform: translateZ(48px); }
+  .face-back   { transform: translateZ(-48px) rotateY(180deg); }
+  .face-right  { transform: rotateY(90deg) translateZ(48px); }
+  .face-left   { transform: rotateY(-90deg) translateZ(48px); }
+  .face-top    { transform: rotateX(90deg) translateZ(48px); }
+  .face-bottom { transform: rotateX(-90deg) translateZ(48px); }
+
+  @keyframes noys-cube-roll {
+    0%   { transform: rotateX(0deg); }
+    50%  { transform: rotateX(-90deg) translateY(4px); }
+    100% { transform: rotateX(-180deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .noys-404-rail,
+    .noys-404-cube {
+      animation: none;
+    }
+  }
+
+  /* ===== متن‌ها ===== */
+  .noys-404-title {
+    margin: 0 0 10px;
+    font-size: 26px;
+    font-weight: 800;
+  }
+
+  .noys-404-desc {
+    max-width: 420px;
+    color: #777;
+    line-height: 1.9;
+    margin: 0 0 28px;
+  }
+
+  html[data-theme="dark"] .noys-404-desc {
+    color: #aaa;
+  }
+
+  /* ===== دکمه‌ی نئونی بازگشت ===== */
+  .noys-404-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 34px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    color: #222;
+    text-decoration: none;
+    background: #fff200;
+    box-shadow: 0 10px 30px rgba(255, 242, 0, 0.4);
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .noys-404-btn::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    z-index: -1;
+    background: conic-gradient(
+      from 0deg,
+      #fff200, #ffd23f, #fff200, #8b6cf2, #fff200
+    );
+    animation: noys-404-btn-spin 3.5s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .noys-404-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(255, 242, 0, 0.55);
+  }
+
+  .noys-404-btn:hover::before {
+    opacity: 0.5;
+  }
+
+  .noys-404-btn span {
+    position: relative;
+    z-index: 1;
+    background: inherit;
+    padding: 2px 6px;
+    border-radius: 999px;
+  }
+
+  @keyframes noys-404-btn-spin {
+    to { transform: rotate(360deg); }
+  }
+
+</style>

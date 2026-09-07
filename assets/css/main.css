@@ -663,7 +663,7 @@ footer .copyright {
 .article-page .post-markdown-body {
   width: 100%;
 
-  font-size: 16px !important;
+  font-size: calc(16px * var(--noys-scale, 1)) !important;
 
   line-height: 1.9 !important;
 
@@ -675,7 +675,7 @@ footer .copyright {
 
   margin-bottom: 30px;
 
-  font-size: 16px !important;
+  font-size: calc(16px * var(--noys-scale, 1)) !important;
 
   line-height: 1.9 !important;
 
@@ -692,7 +692,7 @@ footer .copyright {
 
   margin-bottom: 25px;
 
-  font-size: 30px !important;
+  font-size: calc(30px * var(--noys-scale, 1)) !important;
 
   line-height: 1.7 !important;
 
@@ -706,7 +706,7 @@ footer .copyright {
 
   margin-bottom: 20px;
 
-  font-size: 24px !important;
+  font-size: calc(24px * var(--noys-scale, 1)) !important;
 
   line-height: 1.8 !important;
 
@@ -720,7 +720,7 @@ footer .copyright {
 
   margin-bottom: 15px;
 
-  font-size: 21px !important;
+  font-size: calc(21px * var(--noys-scale, 1)) !important;
 
   line-height: 1.8 !important;
 
@@ -744,7 +744,7 @@ footer .copyright {
 
   margin-bottom: 30px;
 
-  font-size: 16px !important;
+  font-size: calc(16px * var(--noys-scale, 1)) !important;
 
   line-height: 1.9 !important;
 
@@ -773,7 +773,7 @@ footer .copyright {
 
   color: #555;
 
-  font-size: 16px !important;
+  font-size: calc(16px * var(--noys-scale, 1)) !important;
 
   line-height: 1.9 !important;
 
@@ -1390,13 +1390,13 @@ body.noys-lightbox-active {
   /* BODY */
 
   .article-page .post-markdown-body {
-    font-size: 15px !important;
+    font-size: calc(15px * var(--noys-scale, 1)) !important;
 
     line-height: 1.9 !important;
   }
 
   .article-page .post-markdown-body p {
-    font-size: 15px !important;
+    font-size: calc(15px * var(--noys-scale, 1)) !important;
 
     line-height: 1.9 !important;
 
@@ -1407,7 +1407,7 @@ body.noys-lightbox-active {
   /* HEADINGS */
 
   .article-page .post-markdown-body h2 {
-    font-size: 26px !important;
+    font-size: calc(26px * var(--noys-scale, 1)) !important;
 
     line-height: 1.7 !important;
 
@@ -1417,7 +1417,7 @@ body.noys-lightbox-active {
   }
 
   .article-page .post-markdown-body h3 {
-    font-size: 22px !important;
+    font-size: calc(22px * var(--noys-scale, 1)) !important;
 
     line-height: 1.8 !important;
 
@@ -1427,7 +1427,7 @@ body.noys-lightbox-active {
   }
 
   .article-page .post-markdown-body h4 {
-    font-size: 20px !important;
+    font-size: calc(20px * var(--noys-scale, 1)) !important;
 
     margin-top: 30px;
   }
@@ -1437,7 +1437,7 @@ body.noys-lightbox-active {
 
   .article-page .post-markdown-body ul,
   .article-page .post-markdown-body ol {
-    font-size: 15px !important;
+    font-size: calc(15px * var(--noys-scale, 1)) !important;
 
     line-height: 1.9 !important;
 
@@ -1448,7 +1448,7 @@ body.noys-lightbox-active {
   /* BLOCKQUOTE */
 
   .article-page .post-markdown-body blockquote {
-    font-size: 15px !important;
+    font-size: calc(15px * var(--noys-scale, 1)) !important;
 
     line-height: 1.9 !important;
 

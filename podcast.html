@@ -14,11 +14,10 @@ permalink: /podcast/
     <svg class="noys-arc-clock-svg" viewBox="0 0 900 260" preserveAspectRatio="xMidYMid meet">
       <defs>
         <linearGradient id="noysArcGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%"  stop-color="#fde047"/>
-          <stop offset="25%" stop-color="#fb923c"/>
-          <stop offset="50%" stop-color="#e0479a"/>
-          <stop offset="75%" stop-color="#7c3aed"/>
-          <stop offset="100%" stop-color="#1e2260"/>
+          <stop offset="0%"   stop-color="#fff200"/>
+          <stop offset="35%"  stop-color="#ffd23f"/>
+          <stop offset="65%"  stop-color="#8b6cf2"/>
+          <stop offset="100%" stop-color="#3d1e8c"/>
         </linearGradient>
       </defs>
       <path
@@ -30,7 +29,7 @@ permalink: /podcast/
         stroke-linecap="round"
       ></path>
       <circle id="noysArcThumbHalo" r="26" fill="#ffffff"></circle>
-      <circle id="noysArcThumb" r="15" fill="#8b2fc9"></circle>
+      <circle id="noysArcThumb" r="15" fill="#3d1e8c"></circle>
     </svg>
   </div>
 
@@ -238,12 +237,18 @@ permalink: /podcast/
     }
   }
 
-  /* ===== ساعت تزئینیِ قوسی ===== */
+  /* ===== ساعت تزئینیِ قوسی — تم رنگی هارمونیک با لوگو (زرد + بنفش) ===== */
   .noys-arc-clock {
     position: relative;
     width: 100%;
     max-width: 760px;
     margin: 0 auto 34px;
+  }
+
+  @media (min-width: 769px) {
+    .noys-arc-clock {
+      max-width: 560px;
+    }
   }
 
   .noys-arc-clock-svg {
@@ -264,13 +269,13 @@ permalink: /podcast/
     font-size: 20px;
     font-weight: 700;
     color: #222;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    box-shadow: 0 10px 30px rgba(255, 242, 0, 0.45);
     white-space: nowrap;
     pointer-events: none;
   }
 
   #noysArcThumbHalo {
-    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.25));
+    filter: drop-shadow(0 6px 14px rgba(255, 242, 0, 0.5));
   }
 
 </style>
