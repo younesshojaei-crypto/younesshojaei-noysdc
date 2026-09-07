@@ -2,7 +2,7 @@
 layout: post
 title: "چرا یک آنتنِ خالی «کار می‌کرد»؟ کالبدشکافیِ کمبریج و رازِ روانیِ یک کلاهبرداری جهانی"
 date: 2026-09-10
-img: magazine/ade651-cambridge-science-cover.jpg
+img: magazine/a3302_CheckpointStills008-1024x576.jpg
 fig-caption: جیم مک‌کورمیک؛ مردی که فهمید ترس، پرسودترین کالای بازار سیاه است
 podcast_channel_id:
 podcast_episode_id:

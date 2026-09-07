@@ -2,7 +2,7 @@
 layout: post
 title: "۸۵ میلیون دلار برای یک آهن‌پاره: شبکه‌ی رشوه‌ی ژنرال‌های عراقی و جیم مک‌کورمیک"
 date: 2026-09-09
-img: magazine/ade651-baghdad-network-cover.jpg
+img: magazine/02+.jpg
 fig-caption: یک ایست‌بازرسی در بغداد؛ همین دستگاه‌ها بودند که گیت‌های ورودی شهر را «کنترل» می‌کردند
 podcast_channel_id:
 podcast_episode_id:
@@ -10,8 +10,6 @@ country: IQ
 country_name: عراق
 categories:
   - نظامی
-  - قاچاق
-  - بیزینس های ممنوعه
 tags:
   - ADE_651
   - جیم_مک‌کورمیک
