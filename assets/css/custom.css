@@ -945,3 +945,158 @@ html[data-theme="dark"] .noys-decor {
     transform: none !important;
   }
 }
+
+/* =========================================================
+   NOYS - دکمه‌های صفحه‌بندی (صفحه قبلی/بعدی)
+   قبلاً این‌ها فقط <a> خام داخل <ul><li> بودن و هیچ استایلی
+   نداشتن (لینکِ آبیِ پیش‌فرض مرورگر) — این‌جا به شکل دو دکمه‌ی
+   قرص‌مانند (هم‌شکل با nav-links بالای سایت) با شماره‌ی صفحه
+   در وسط بازطراحی شدن.
+   ========================================================= */
+
+.noys-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  flex-wrap: wrap;
+}
+
+.noys-pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 12px 22px;
+  border-radius: 999px;
+
+  background: #fff;
+  border: 1px solid #eee;
+  box-shadow: 0 6px 16px rgba(20, 22, 30, 0.06);
+
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #333;
+  text-decoration: none;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.noys-pagination-btn i {
+  font-size: 13px;
+  color: #999;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.noys-pagination-btn:hover {
+  background: #fff200;
+  border-color: #fff200;
+  color: #222;
+
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(255, 242, 0, 0.4);
+}
+
+.noys-pagination-btn:hover i {
+  color: #222;
+}
+
+.noys-pagination-prev:hover i {
+  transform: translateX(3px);
+}
+
+.noys-pagination-next:hover i {
+  transform: translateX(-3px);
+}
+
+/* اگه فقط یکی از دو دکمه وجود داشته باشه (اول یا آخر صفحه‌بندی)،
+   بقیه‌ی فضا رو با margin-inline-start/end خودکار جبران می‌کنیم
+   تا شماره‌ی صفحه همیشه واقعاً وسط بمونه */
+.noys-pagination-prev:only-child {
+  margin-inline-end: auto;
+}
+
+.noys-pagination-next:only-child {
+  margin-inline-start: auto;
+}
+
+.noys-pagination-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 10px 18px;
+  border-radius: 999px;
+
+  background: #fafafa;
+  border: 1px dashed #ddd;
+
+  font-size: 13px;
+  color: #888;
+  white-space: nowrap;
+}
+
+.noys-pagination-count-num {
+  font-weight: 700;
+  color: #444;
+}
+
+.noys-pagination-count-sep {
+  color: #bbb;
+}
+
+html[data-theme="dark"] .noys-pagination-btn {
+  background: #1c1f24;
+  border-color: #2a2d33;
+  color: #ddd;
+}
+
+html[data-theme="dark"] .noys-pagination-count {
+  background: #1c1f24;
+  border-color: #3a3d43;
+  color: #999;
+}
+
+html[data-theme="dark"] .noys-pagination-count-num {
+  color: #eee;
+}
+
+@media (max-width: 480px) {
+  .noys-pagination {
+    justify-content: center;
+  }
+
+  .noys-pagination-btn {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding: 12px 14px;
+  }
+
+  .noys-pagination-count {
+    order: 3;
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}
+
+/* =========================================================
+   NOYS - جلوگیری از اسکرول افقی ناخواسته (مخصوصاً صفحه اصلی)
+   بعضی بلاک‌های تزئینی (نقشه‌ی جهان، تولتیپ‌های شناور، پخش‌کننده‌ی
+   شناور پادکست) با position:absolute/fixed کار می‌کنن؛ اگه به هر
+   دلیلی (مثلاً هاور نزدیک لبه، یا صفحه‌ی خیلی باریک) حتی چند
+   پیکسل از عرض واقعی صفحه بیرون بزنن، کل صفحه یک اسکرول‌بار
+   افقی اضافه می‌گیره که نه لازمه و نه قشنگه. این‌جا صراحتاً
+   قفلش می‌کنیم؛ چیزی از نظر عملکردی از دست نمی‌ره چون هیچ‌کدوم
+   از این بلاک‌ها نیازی به اسکرول افقی ندارن.
+   ========================================================= */
+
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.noys-world-map-wrap {
+  overflow: hidden;
+}

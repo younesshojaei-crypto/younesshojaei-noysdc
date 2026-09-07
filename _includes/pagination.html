@@ -1,25 +1,25 @@
-<div class="container">
-  <nav class="pagination" role="navigation" aria-label="Pagination">
-    <ul>
-      {% if paginator.previous_page %}
-        <p>
-          <a class="newer-posts" href="{% if paginator.previous_page == 1 %}{{ site.baseurl }}/{% else %}{{ site.baseurl }}/page/{{ paginator.previous_page }}/{% endif %}">
-            صفحه قبلی <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-          </a>
-        </p>
-      {% endif %}
+<nav class="noys-pagination" role="navigation" aria-label="صفحه‌بندی">
 
-      {% if paginator.total_pages > 1 %}
-        <p><span class="page-number">صفحه {{ paginator.page }} از {{ paginator.total_pages }}</span></p>
-      {% endif %}
-      
-      {% if paginator.next_page %}
-        <p>
-          <a class="older-posts" href="{{ site.baseurl }}/page/{{ paginator.next_page }}/">
-            <i class="fa fa-long-arrow-left" aria-hidden="true"></i> صفحه بعدی
-          </a>
-        </p>
-      {% endif %}
-    </ul>
-  </nav>
-</div>
+  {% if paginator.previous_page %}
+    <a class="noys-pagination-btn noys-pagination-prev" href="{% if paginator.previous_page == 1 %}{{ site.baseurl }}/{% else %}{{ site.baseurl }}/page/{{ paginator.previous_page }}/{% endif %}">
+      <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+      <span>صفحه قبلی</span>
+    </a>
+  {% endif %}
+
+  {% if paginator.total_pages > 1 %}
+    <span class="noys-pagination-count">
+      <span class="noys-pagination-count-num">{{ paginator.page }}</span>
+      <span class="noys-pagination-count-sep">از</span>
+      <span class="noys-pagination-count-num">{{ paginator.total_pages }}</span>
+    </span>
+  {% endif %}
+
+  {% if paginator.next_page %}
+    <a class="noys-pagination-btn noys-pagination-next" href="{{ site.baseurl }}/page/{{ paginator.next_page }}/">
+      <span>صفحه بعدی</span>
+      <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+    </a>
+  {% endif %}
+
+</nav>
