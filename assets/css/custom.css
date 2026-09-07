@@ -827,6 +827,11 @@ html[data-theme="dark"] .contact-title {
   color: #eee !important;
 }
 
+html[data-theme="dark"] .about p {
+  background: #22252b !important;
+  border-color: #33363c !important;
+}
+
 html[data-theme="dark"] .sidebar-topics,
 html[data-theme="dark"] .sidebar-podcast {
   background: #22252b !important;

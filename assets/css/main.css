@@ -320,6 +320,35 @@ main {
   background-color: #515151;
 }
 
+.about p {
+  max-width: 210px;
+
+  margin: 16px auto 0;
+
+  padding: 14px 16px;
+
+  border-radius: 14px;
+
+  background: #fafafa;
+  border: 1px solid #eee;
+
+  box-shadow: 0 8px 20px rgba(20, 22, 30, 0.07);
+
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.9;
+
+  color: #444;
+
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.about p:hover {
+  transform: scale(1.02);
+
+  box-shadow: 0 14px 30px rgba(255, 242, 0, 0.4);
+}
+
 
 /* =========================================================
    CONTACT
