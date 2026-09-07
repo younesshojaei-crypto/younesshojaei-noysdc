@@ -45,7 +45,19 @@
       <button type="button" id="noysFPMinimize" class="noys-floating-player-btn" aria-label="کوچک/بزرگ کردن">–</button>
       <button type="button" id="noysFPClose" class="noys-floating-player-btn" aria-label="بستن پخش‌کننده">✕</button>
     </div>
-    <div class="noys-floating-player-frame" id="noysFPFrame"></div>
+    <div class="noys-floating-player-frame-wrap" id="noysFPFrameWrap">
+      <div class="noys-floating-player-frame" id="noysFPFrame"></div>
+      <svg class="noys-fp-scrollbar" id="noysFPScrollbar" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="noysFPScrollbarGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#fff200"/>
+            <stop offset="100%" stop-color="#3d1e8c"/>
+          </linearGradient>
+        </defs>
+        <line class="noys-fp-scrollbar-track" id="noysFPScrollbarTrack"></line>
+        <line class="noys-fp-scrollbar-thumb" id="noysFPScrollbarThumb"></line>
+      </svg>
+    </div>
   </div>
 
   <div class="wrapper" id="noysWrapper">
@@ -117,10 +129,24 @@
     .noys-floating-player-btn:hover {
       background: #fff200;
     }
+    .noys-floating-player-frame-wrap {
+      position: relative;
+    }
+    .noys-floating-player.is-minimized .noys-floating-player-frame-wrap {
+      display: none;
+    }
     .noys-floating-player-frame {
       width: 100%;
       max-height: min(420px, calc(100vh - 120px));
       overflow-y: auto;
+
+      /* اسکرول‌بار بومی مرورگر رو مخفی می‌کنیم چون یک نسخه‌ی سفارشی
+         (منحنی و هم‌رنگ لوگو) به‌جاش رسم می‌کنیم */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .noys-floating-player-frame::-webkit-scrollbar {
+      display: none;
     }
     .noys-floating-player-frame iframe {
       display: block;
@@ -128,8 +154,40 @@
       border: 0;
       height: 380px;
     }
-    .noys-floating-player.is-minimized .noys-floating-player-frame {
-      display: none;
+
+    /* ===== اسکرول‌بار سفارشی منحنی — رنگ لوگو + بنفشِ هارمونیک ===== */
+    .noys-fp-scrollbar {
+      position: absolute;
+      top: 0;
+      left: 5px;
+      width: 12px;
+      height: 100%;
+
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .noys-fp-scrollbar.is-active {
+      opacity: 1;
+    }
+    .noys-fp-scrollbar-track {
+      stroke: rgba(255, 242, 0, 0.18);
+      stroke-width: 5;
+      stroke-linecap: round;
+    }
+    .noys-fp-scrollbar-thumb {
+      stroke: url(#noysFPScrollbarGradient);
+      stroke-width: 5;
+      stroke-linecap: round;
+      cursor: grab;
+      pointer-events: auto;
+      touch-action: none;
+    }
+    .noys-fp-scrollbar-thumb:active {
+      cursor: grabbing;
+    }
+    html[data-theme="dark"] .noys-fp-scrollbar-track {
+      stroke: rgba(255, 242, 0, 0.12);
     }
     @media (max-width: 768px) {
       .noys-floating-player {
@@ -158,6 +216,91 @@
     var fpCover   = document.getElementById('noysFPCover');
     var fpMin     = document.getElementById('noysFPMinimize');
     var fpClose   = document.getElementById('noysFPClose');
+    var fpScrollbar = document.getElementById('noysFPScrollbar');
+    var fpTrack     = document.getElementById('noysFPScrollbarTrack');
+    var fpThumb     = document.getElementById('noysFPScrollbarThumb');
+
+    // ---------- اسکرول‌بار سفارشی منحنی (زرد لوگو → بنفش هارمونیک) ----------
+    var fpPad = 6; // فاصله‌ی دو سرِ خط از لبه، هم‌اندازه‌ی نصفِ stroke-width که گرد می‌شه
+    var fpThumbState = { start: fpPad, trackLen: 0, thumbLen: 0 };
+
+    function noysUpdateFPScrollbar() {
+      var H = fpFrame.clientHeight;
+      var S = fpFrame.scrollHeight;
+      var T = fpFrame.scrollTop;
+
+      if (!H || S <= H + 1) {
+        fpScrollbar.classList.remove('is-active');
+        return;
+      }
+
+      fpScrollbar.classList.add('is-active');
+      fpScrollbar.setAttribute('width', 12);
+      fpScrollbar.setAttribute('height', H);
+
+      fpTrack.setAttribute('x1', 6);
+      fpTrack.setAttribute('y1', fpPad);
+      fpTrack.setAttribute('x2', 6);
+      fpTrack.setAttribute('y2', H - fpPad);
+
+      var trackLen = Math.max(0, H - fpPad * 2);
+      var ratio = H / S;
+      var thumbLen = Math.max(24, ratio * trackLen);
+      var maxTravel = Math.max(0, trackLen - thumbLen);
+      var scrollableDist = S - H;
+      var thumbOffset = scrollableDist > 0 ? (T / scrollableDist) * maxTravel : 0;
+      var thumbStart = fpPad + thumbOffset;
+      var thumbEnd = thumbStart + thumbLen;
+
+      fpThumb.setAttribute('x1', 6);
+      fpThumb.setAttribute('y1', thumbStart);
+      fpThumb.setAttribute('x2', 6);
+      fpThumb.setAttribute('y2', thumbEnd);
+
+      fpThumbState.start = thumbStart;
+      fpThumbState.trackLen = trackLen;
+      fpThumbState.thumbLen = thumbLen;
+    }
+
+    fpFrame.addEventListener('scroll', noysUpdateFPScrollbar, { passive: true });
+    window.addEventListener('resize', noysUpdateFPScrollbar);
+
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(noysUpdateFPScrollbar).observe(fpFrame);
+    }
+
+    var fpThumbDragging = false;
+    var fpThumbDragStartY = 0;
+    var fpThumbDragStartOffset = 0;
+
+    fpThumb.addEventListener('pointerdown', function (e) {
+      fpThumbDragging = true;
+      fpThumbDragStartY = e.clientY;
+      fpThumbDragStartOffset = fpThumbState.start - fpPad;
+      fpThumb.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+
+    fpThumb.addEventListener('pointermove', function (e) {
+      if (!fpThumbDragging) return;
+      var maxTravel = Math.max(0, fpThumbState.trackLen - fpThumbState.thumbLen);
+      if (maxTravel <= 0) return;
+
+      var deltaY = e.clientY - fpThumbDragStartY;
+      var newOffset = Math.min(maxTravel, Math.max(0, fpThumbDragStartOffset + deltaY));
+      var fraction = newOffset / maxTravel;
+
+      fpFrame.scrollTop = fraction * (fpFrame.scrollHeight - fpFrame.clientHeight);
+    });
+
+    function fpThumbEndDrag(e) {
+      if (!fpThumbDragging) return;
+      fpThumbDragging = false;
+      try { fpThumb.releasePointerCapture(e.pointerId); } catch (err) {}
+    }
+
+    fpThumb.addEventListener('pointerup', fpThumbEndDrag);
+    fpThumb.addEventListener('pointercancel', fpThumbEndDrag);
 
     window.NOYS_PLAY_PODCAST = function (opts) {
       opts = opts || {};
@@ -174,11 +317,16 @@
 
       fp.hidden = false;
       fp.classList.remove('is-minimized');
+
+      requestAnimationFrame(noysUpdateFPScrollbar);
     };
 
     fpMin.addEventListener('click', function () {
       fp.classList.toggle('is-minimized');
       fpMin.textContent = fp.classList.contains('is-minimized') ? '+' : '–';
+      if (!fp.classList.contains('is-minimized')) {
+        requestAnimationFrame(noysUpdateFPScrollbar);
+      }
     });
 
     fpClose.addEventListener('click', function () {
