@@ -10,7 +10,6 @@ country: US
 country_name: آمریکا
 categories:
   - نظامی
-  - بیزینس های ممنوعه
   - فساد_مالی
 tags:
   - بلک_واتر
