@@ -9,7 +9,7 @@ podcast_channel_id: "7361321"
 podcast_episode_id: "983635911"
 categories:
   - podcast
-  - بیزینس ممنوعه
+  - بیزینس های ممنوعه
 tags:
   - NOYS
   - PODCAST
