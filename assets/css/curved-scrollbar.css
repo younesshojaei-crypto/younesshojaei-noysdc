@@ -1,0 +1,73 @@
+/* =========================================================
+   NOYS - Curved SVG Scrollbar (عمومی، قابل استفاده روی هر باکس)
+   ========================================================= */
+
+/* هر container ای که data-noys-scrollbar داشته باشه،
+   اسکرول‌بار بومی مرورگر مخفی می‌شه چون نسخه‌ی SVG منحنی
+   جایگزینش می‌شه */
+[data-noys-scrollbar] {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+[data-noys-scrollbar]::-webkit-scrollbar {
+  display: none;
+}
+
+.noys-curved-scrollbar-sticky {
+  position: sticky;
+  top: 0;
+  height: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.noys-curved-scrollbar {
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.noys-curved-scrollbar.side-left {
+  left: 0;
+}
+.noys-curved-scrollbar.side-right {
+  right: 0;
+}
+
+.noys-curved-scrollbar.is-active {
+  opacity: 1;
+}
+
+.noys-curved-scrollbar-track {
+  fill: none;
+  stroke: rgba(38, 57, 89, 0.12);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.noys-curved-scrollbar-thumb {
+  fill: none;
+  stroke: var(--noys-scrollbar-start, #fff200);
+  stroke-width: 4;
+  stroke-linecap: round;
+  cursor: grab;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.noys-curved-scrollbar-thumb:active {
+  cursor: grabbing;
+}
+
+html[data-theme="dark"] .noys-curved-scrollbar-track {
+  stroke: rgba(255, 255, 255, 0.12);
+}
+
+/* رنگ پیش‌فرض گرادینت (زرد لوگو → بنفش هارمونیک)، از طریق
+   متغیرهای CSS قابل override هست، هم سراسری هم روی هر باکس */
+:root {
+  --noys-scrollbar-start: #fff200;
+  --noys-scrollbar-end: #3d1e8c;
+}
