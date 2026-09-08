@@ -17,6 +17,18 @@
     rgba(139, 108, 242, 0.7) 72%,
     rgba(61, 30, 140, 0.85) 100%
   );
+
+  /* نسخه‌ی پررنگ‌تر و کمتر شفاف - مخصوص المنت‌های کوچیک و مستقلی
+     مثل پلیر شناور، که روی زمینه‌ی سفید صفحه، نسخه‌ی نازک و
+     نیمه‌شفافِ بالا عملاً دیده نمی‌شه */
+  --noys-shine-gradient-bold: linear-gradient(
+    120deg,
+    #fff200 0%,
+    #ffd66b 28%,
+    #f3ecff 50%,
+    #8b6cf2 74%,
+    #3d1e8c 100%
+  );
 }
 
 /* چرخشِ ملایمِ گرادیانت برای افکت «شاینی» - خیلی آروم و بی‌سروصدا */
@@ -1300,8 +1312,8 @@ html[data-theme="dark"] .podcast-card {
 }
 
 .noys-floating-player {
-  border: 1.5px solid transparent !important;
-  background-image: linear-gradient(#fff, #fff), var(--noys-shine-gradient) !important;
+  border: 2.5px solid transparent !important;
+  background-image: linear-gradient(#fff, #fff), var(--noys-shine-gradient-bold) !important;
   background-origin: border-box;
   background-clip: padding-box, border-box;
   background-size: auto, 250% 250% !important;
