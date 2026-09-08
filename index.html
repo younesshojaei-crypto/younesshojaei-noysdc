@@ -27,12 +27,14 @@ layout: main
 
     {% if post.img %}
 
-      <a
-        class="post-thumbnail"
-        href="{{ post.url | prepend: site.baseurl }}"
-        style="background-image: url('{{ "/assets/img/" | prepend: site.baseurl | append: post.img }}');"
-        aria-label="{{ post.title }}"
-      ></a>
+      <span class="post-thumbnail-frame">
+        <a
+          class="post-thumbnail"
+          href="{{ post.url | prepend: site.baseurl }}"
+          style="background-image: url('{{ "/assets/img/" | prepend: site.baseurl | append: post.img }}');"
+          aria-label="{{ post.title }}"
+        ></a>
+      </span>
 
     {% endif %}
 

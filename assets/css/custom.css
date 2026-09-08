@@ -6,16 +6,16 @@
 :root {
   --noys-brand-color: 255, 242, 0; /* #FFF200 - رنگ لوگو */
 
-  /* حاشیه‌ی گرادیانتیِ «شاینی» - همون طیف رنگیِ ساعت پادکست
-     (زرد برند -> سفید ملایم -> بنفش) تا با بقیه‌ی سایت هماهنگ بمونه */
+  /* حاشیه‌ی گرادیانتیِ «شاینی» - نسخه‌ی ظریف و استروک‌مانند
+     (به‌جای پرشدنِ کامل با رنگ، فقط یک خط نازکِ نیمه‌شفاف با
+     طیفِ برند: زرد -> بنفش، که خیلی آروم می‌چرخه) */
   --noys-shine-gradient: linear-gradient(
     120deg,
-    #fff200 0%,
-    #ffd23f 20%,
-    #fdf6e3 38%,
-    #c9b8f5 58%,
-    #8b6cf2 78%,
-    #3d1e8c 100%
+    rgba(255, 242, 0, 0.85) 0%,
+    rgba(255, 214, 107, 0.7) 30%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(139, 108, 242, 0.7) 72%,
+    rgba(61, 30, 140, 0.85) 100%
   );
 }
 
@@ -1123,123 +1123,142 @@ body {
 }
 
 /* =========================================================
-   NOYS - حاشیه‌ی گرادیانتیِ شاینی
-   دور باکس‌های پست/اپیزود، کاورهای مجله، عکس بالای پست و
-   پخش‌کننده‌های پادکست. یک حاشیه‌ی نازک (۲px)، نرم و ظریف،
-   با گرادیانتِ برند (زرد -> بنفش) که خیلی آروم می‌چرخه.
+   NOYS - حاشیه‌ی گرادیانتیِ استروک‌مانند (نسخه‌ی درست‌شده)
+   نسخه‌ی قبلی از ::before با z-index منفی استفاده می‌کرد که یه
+   باگ داشت: توی چیدمانِ این تم، پس‌زمینه‌ی گرادیانتی به‌جای اینکه
+   *پشتِ* پس‌زمینه‌ی خودِ باکس بشینه، *روش* می‌نشست و کل باکس رو
+   با رنگ پر می‌کرد (و برای عکس‌های بدون محتوای دیگه مثل کاور
+   مجله، کلاً جلوی عکس رو می‌گرفت).
 
-   روش کار برای باکس‌ها/عکس‌هایی که "overflow" شون visible-ه:
-   یک ::before پشتِ خودِ المنت، کمی بزرگ‌تر از خودش، با پس‌زمینه‌ی
-   گرادیانتی. چون خودِ المنت (کارت سفید یا عکس) روش رو می‌پوشونه،
-   فقط همون چند پیکسل اضافه، به شکل یک قابِ نازک گرادیانتی دورش
-   دیده می‌شه. این روش با border-radius هر شکلی هم درست کار می‌کنه.
+   روش درست: یک border واقعی و شفاف روی خودِ باکس + دو لایه
+   پس‌زمینه (یکی رنگِ اصلیِ باکس، یکی گرادیانت) که با background-clip
+   جدا می‌شن؛ رنگِ اصلی فقط داخلِ باکس (padding-box) دیده می‌شه و
+   گرادیانت فقط توی نوارِ باریکِ خودِ border (border-box). این‌جوری
+   محتوای داخلِ باکس (عکس، متن) همیشه دست‌نخورده می‌مونه و فقط یک
+   خط نازکِ گرادیانتی دورش اضافه می‌شه.
    ========================================================= */
 
 /* ---- کارت پست‌ها در صفحه‌ی اصلی (مجله) ---- */
 
 .posts-list > .post {
-  position: relative;
-  z-index: 0;
+  border: 1.5px solid transparent;
+  background-image: linear-gradient(#fff, #fff), var(--noys-shine-gradient);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: auto, 250% 250%;
+  animation: noysShineMove 12s ease infinite;
 }
 
-.posts-list > .post::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  z-index: -1;
-  border-radius: 18px;
-
-  background: var(--noys-shine-gradient);
-  background-size: 300% 300%;
-  animation: noysShineMove 11s ease infinite;
-}
-
-@media (max-width: 768px) {
-  .posts-list > .post::before {
-    border-radius: 14px;
-  }
+html[data-theme="dark"] .posts-list > .post {
+  background-image: linear-gradient(#1c1f24, #1c1f24), var(--noys-shine-gradient);
 }
 
 /* ---- باکس‌های اپیزود پادکست (صفحه‌ی /podcast/) ---- */
 
 .podcast-card {
-  position: relative;
-  z-index: 0;
-  border-color: transparent !important; /* حاشیه‌ی خاکستریِ قبلی رو با قابِ گرادیانتی عوض می‌کنیم */
+  border: 1.5px solid transparent !important;
+  background-image: linear-gradient(#fafafa, #fafafa), var(--noys-shine-gradient) !important;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: auto, 250% 250% !important;
+  animation: noysShineMove 12s ease infinite;
 }
 
-.podcast-card::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  z-index: -1;
-  border-radius: 14px;
-
-  background: var(--noys-shine-gradient);
-  background-size: 300% 300%;
-  animation: noysShineMove 11s ease infinite;
+html[data-theme="dark"] .podcast-card {
+  background-image: linear-gradient(#1c1f24, #1c1f24), var(--noys-shine-gradient) !important;
 }
 
-/* کاورِ گرد داخل هر باکسِ اپیزود، همون تویِ صفحه‌ی پادکست */
+/* کاورِ گرد داخل هر باکسِ اپیزود - چون برای بزرگ‌نمایی موقع هاور
+   نیاز به overflow:visible داره، این‌جا به‌جای border از یک
+   "قابِ" نازک (padding + پس‌زمینه‌ی گرادیانتی) دورِ خودِ عکس
+   استفاده می‌کنیم؛ خودِ عکس real کامل content-flow هست پس همیشه
+   بالای این قاب دیده می‌شه. */
+
 .podcast-cover-wrap {
-  position: relative;
-  border-radius: 10px;
+  padding: 3px;
+  border-radius: 12px;
+  background: var(--noys-shine-gradient);
+  background-size: 250% 250%;
+  animation: noysShineMove 12s ease infinite;
 }
 
-.podcast-cover-wrap::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  z-index: -1;
-  border-radius: 12px;
-
-  background: var(--noys-shine-gradient);
-  background-size: 300% 300%;
-  animation: noysShineMove 11s ease infinite;
+.podcast-cover {
+  border-radius: 9px !important;
 }
 
 /* کاورِ صفحه‌ی اختصاصیِ هر اپیزود (وقتی پست جداگانه داره) */
+
 .podcast-episode-cover-wrap {
-  position: relative;
-  border-radius: 12px;
+  padding: 3px;
+  border-radius: 14px;
+  background: var(--noys-shine-gradient);
+  background-size: 250% 250%;
+  animation: noysShineMove 12s ease infinite;
 }
 
-.podcast-episode-cover-wrap::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  z-index: -1;
-  border-radius: 14px;
+.podcast-episode-cover {
+  border-radius: 11px !important;
+}
+
+/* =========================================================
+   NOYS - تصویر کاورِ هر مطلبِ مجله (بندانگشتیِ صفحه‌ی اصلی)
+   این‌جا خودِ .post-thumbnail یک <a> خالیه که فقط background-image
+   (عکسِ کاور) داره و هیچ محتوای دیگه‌ای توش نیست؛ به همین دلیل
+   هر پس‌زمینه‌ای که مستقیم روی خودش بذاریم، جلوی عکس رو می‌گیره.
+   راه‌حل: یک قابِ نازک (span) دورش که توی index.html اضافه شده،
+   خودِ عکس داخلش، دست‌نخورده، کامل دیده می‌شه.
+   ========================================================= */
+
+.post-thumbnail-frame {
+  display: block;
+  flex: 0 0 300px;
+  width: 300px;
+  aspect-ratio: 16 / 9;
+  height: auto;
+
+  padding: 3px;
+  border-radius: 10px;
+  box-sizing: border-box;
 
   background: var(--noys-shine-gradient);
-  background-size: 300% 300%;
-  animation: noysShineMove 11s ease infinite;
+  background-size: 250% 250%;
+  animation: noysShineMove 12s ease infinite;
 }
-
-/* ---- تصویر کاورِ هر مطلبِ مجله (بندانگشتیِ صفحه‌ی اصلی) ---- */
 
 .post-thumbnail {
-  position: relative;
-  z-index: 0;
+  width: 100% !important;
+  height: 100% !important;
+  flex: initial !important;
+  aspect-ratio: auto !important;
+  margin-bottom: 0 !important;
+  border-radius: 7px !important;
 }
 
-.post-thumbnail::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  z-index: -1;
-  border-radius: 10px;
+@media (max-width: 768px) {
+  .post-thumbnail-frame {
+    width: 100%;
+    flex-basis: auto;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    margin-bottom: 0;
+  }
+}
 
-  background: var(--noys-shine-gradient);
-  background-size: 300% 300%;
-  animation: noysShineMove 11s ease infinite;
+@media (max-width: 480px) {
+  .post-thumbnail-frame {
+    border-radius: 9px;
+  }
+
+  .post-thumbnail {
+    border-radius: 6px !important;
+  }
 }
 
 /* =========================================================
    NOYS - عکسِ بالای صفحه‌ی هر پست: گوشه‌های گردتر + قابِ گرادیانتی
-   این‌جا چون overflow:hidden لازمه (برای افکت پارالاکس عکس)، به‌جای
-   ::before، خودِ فریم (figure) با پدینگ + پس‌زمینه‌ی گرادیانتی
-   تبدیل به یک "قاب" می‌شه و عکس داخلش با گوشه‌های گردتر می‌شینه.
+   overflow:hidden لازمه (برای افکتِ پارالاکسِ عکس)، پس فریم
+   (figure) با پدینگ + پس‌زمینه‌ی گرادیانتی یک "قاب" می‌سازه و
+   خودِ عکس (که یک محتوای واقعیه، نه پس‌زمینه) همیشه روش دیده می‌شه.
    ========================================================= */
 
 .article-page .page-cover-image figure {
@@ -1248,8 +1267,8 @@ body {
   overflow: hidden;
 
   background: var(--noys-shine-gradient);
-  background-size: 300% 300%;
-  animation: noysShineMove 11s ease infinite;
+  background-size: 250% 250%;
+  animation: noysShineMove 12s ease infinite;
 }
 
 .article-page .page-cover-image img {
@@ -1269,46 +1288,34 @@ body {
 
 /* =========================================================
    NOYS - حاشیه‌ی گرادیانتی دورِ پخش‌کننده‌های پادکست
-   این دو باکس (پخش‌کننده‌ی شناور و پخش‌کننده‌ی داخلِ پست) هم
-   overflow:hidden دارن (برای گردیِ آی‌فریم داخلشون)، پس از روشِ
-   "دو-لایه پس‌زمینه" استفاده می‌کنیم: یک لایه رنگِ خودِ باکس +
-   یک لایه گرادیانت، که فقط توی نوارِ باریکِ border دیده می‌شه.
    ========================================================= */
 
 .podcast-container {
-  border: 2px solid transparent;
+  border: 1.5px solid transparent;
   background-image: linear-gradient(#fdfdfd, #fdfdfd), var(--noys-shine-gradient);
   background-origin: border-box;
   background-clip: padding-box, border-box;
-  background-size: auto, 300% 300%;
-  animation: noysShineMove 11s ease infinite;
+  background-size: auto, 250% 250%;
+  animation: noysShineMove 12s ease infinite;
 }
 
 .noys-floating-player {
-  border: 2px solid transparent !important;
+  border: 1.5px solid transparent !important;
   background-image: linear-gradient(#fff, #fff), var(--noys-shine-gradient) !important;
   background-origin: border-box;
   background-clip: padding-box, border-box;
-  background-size: auto, 300% 300% !important;
-  animation: noysShineMove 11s ease infinite;
-}
-
-/* ---- هاورِ ملایم: قابِ گرادیانتی کمی جون می‌گیره ---- */
-
-.posts-list > .post:hover::before,
-.podcast-card:hover::before,
-.post-thumbnail:hover::before {
-  animation-duration: 4s;
+  background-size: auto, 250% 250% !important;
+  animation: noysShineMove 12s ease infinite;
 }
 
 /* ---- احترام به تنظیمِ کاهشِ انیمیشن در سیستم‌عامل کاربر ---- */
 
 @media (prefers-reduced-motion: reduce) {
-  .posts-list > .post::before,
-  .podcast-card::before,
-  .podcast-cover-wrap::before,
-  .podcast-episode-cover-wrap::before,
-  .post-thumbnail::before,
+  .posts-list > .post,
+  .podcast-card,
+  .podcast-cover-wrap,
+  .podcast-episode-cover-wrap,
+  .post-thumbnail-frame,
   .article-page .page-cover-image figure,
   .podcast-container,
   .noys-floating-player {
