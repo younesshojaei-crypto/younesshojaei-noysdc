@@ -14,15 +14,35 @@
    همین فایل رو کش می‌کنه و دفعات بعد اصلاً دوباره دانلودش نمی‌کنه.
    ========================================================= */
 
-document.addEventListener('DOMContentLoaded', function () {
-  var wrap = document.getElementById('noysWorldMapWrap');
-  var dataScript = document.getElementById('noysCountryData');
-  var tooltip = document.getElementById('noysWorldTooltip');
-  var tooltipCountry = document.getElementById('noysWorldTooltipCountry');
-  var tooltipItems = document.getElementById('noysWorldTooltipItems');
-  var loadingEl = document.getElementById('noysWorldMapLoading');
+/* -------------------------------------------------------------
+   چرا این تابع جداست:
+   سایت با pjax سبک خودش (توی default.html) فقط innerHTML خودِ
+   #noysWrapper رو عوض می‌کنه، نه کل صفحه رو رفرش می‌کنه. یعنی وقتی
+   از خونه می‌ریم توی یک پست و برمی‌گردیم، یک #noysWorldMapWrap کاملاً
+   تازه (المنت جدید) ساخته می‌شه، ولی چون این فایل قبلاً فقط یک‌بار
+   روی DOMContentLoaded اجرا شده بود، IntersectionObserver قدیمی
+   داشت المنتِ قدیمیِ (که دیگه از DOM حذف شده) رو دید می‌زد و
+   دیگه هیچ‌وقت trigger نمی‌شد؛ برای همین نقشه فقط با رفرش کامل
+   صفحه دوباره لود می‌شد. راه‌حل: منطق init رو توی یک تابع گلوبال
+   می‌ذاریم (window.NOYS_INIT_WORLD_MAP) که هم موقع لود اول صفحه،
+   هم بعد از هر جابه‌جاییِ pjax (از داخل default.html) صدا زده می‌شه.
+   ------------------------------------------------------------- */
+function noysInitWorldMap(root) {
+  root = root || document;
 
+  var wrap = root.querySelector('#noysWorldMapWrap');
+  var dataScript = root.querySelector('#noysCountryData');
+  var tooltip = root.querySelector('#noysWorldTooltip');
+  var tooltipCountry = root.querySelector('#noysWorldTooltipCountry');
+  var tooltipItems = root.querySelector('#noysWorldTooltipItems');
+  var loadingEl = root.querySelector('#noysWorldMapLoading');
+
+  // اگه این صفحه اصلاً نقشه نداره (مثلاً یک پست متنی)، کاری نکن.
   if (!wrap || !dataScript || !tooltip) return;
+
+  // اگه این المنت قبلاً init شده (SVG توش هست)، دوباره کاری نکن.
+  if (wrap.dataset.noysMapInit === '1') return;
+  wrap.dataset.noysMapInit = '1';
 
   var svgUrl = wrap.getAttribute('data-svg-src');
   if (!svgUrl) return;
@@ -171,11 +191,19 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         });
       },
-      { rootMargin: '400px 0px' }
+      { rootMargin: '600px 0px' }
     );
     observer.observe(wrap);
   } else {
     // مرورگرهای خیلی قدیمی که IntersectionObserver ندارن: مستقیم لود کن
     loadMapSvg();
   }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  noysInitWorldMap(document);
 });
+
+// در default.html بعد از هر جابه‌جاییِ pjax صدا زده می‌شه تا اگه
+// صفحه‌ی جدید نقشه داشت، دوباره init بشه.
+window.NOYS_INIT_WORLD_MAP = noysInitWorldMap;
