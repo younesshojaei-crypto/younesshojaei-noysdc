@@ -5,7 +5,28 @@
 
 :root {
   --noys-brand-color: 255, 242, 0; /* #FFF200 - رنگ لوگو */
+
+  /* حاشیه‌ی گرادیانتیِ «شاینی» - همون طیف رنگیِ ساعت پادکست
+     (زرد برند -> سفید ملایم -> بنفش) تا با بقیه‌ی سایت هماهنگ بمونه */
+  --noys-shine-gradient: linear-gradient(
+    120deg,
+    #fff200 0%,
+    #ffd23f 20%,
+    #fdf6e3 38%,
+    #c9b8f5 58%,
+    #8b6cf2 78%,
+    #3d1e8c 100%
+  );
 }
+
+/* چرخشِ ملایمِ گرادیانت برای افکت «شاینی» - خیلی آروم و بی‌سروصدا */
+@keyframes noysShineMove {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
 
 /* =========================================================
    کارت پست‌ها در صفحه اصلی (هم پست‌های تصویردار، هم متنی)
@@ -1099,4 +1120,198 @@ body {
 
 .noys-world-map-wrap {
   overflow: hidden;
+}
+
+/* =========================================================
+   NOYS - حاشیه‌ی گرادیانتیِ شاینی
+   دور باکس‌های پست/اپیزود، کاورهای مجله، عکس بالای پست و
+   پخش‌کننده‌های پادکست. یک حاشیه‌ی نازک (۲px)، نرم و ظریف،
+   با گرادیانتِ برند (زرد -> بنفش) که خیلی آروم می‌چرخه.
+
+   روش کار برای باکس‌ها/عکس‌هایی که "overflow" شون visible-ه:
+   یک ::before پشتِ خودِ المنت، کمی بزرگ‌تر از خودش، با پس‌زمینه‌ی
+   گرادیانتی. چون خودِ المنت (کارت سفید یا عکس) روش رو می‌پوشونه،
+   فقط همون چند پیکسل اضافه، به شکل یک قابِ نازک گرادیانتی دورش
+   دیده می‌شه. این روش با border-radius هر شکلی هم درست کار می‌کنه.
+   ========================================================= */
+
+/* ---- کارت پست‌ها در صفحه‌ی اصلی (مجله) ---- */
+
+.posts-list > .post {
+  position: relative;
+  z-index: 0;
+}
+
+.posts-list > .post::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: 18px;
+
+  background: var(--noys-shine-gradient);
+  background-size: 300% 300%;
+  animation: noysShineMove 11s ease infinite;
+}
+
+@media (max-width: 768px) {
+  .posts-list > .post::before {
+    border-radius: 14px;
+  }
+}
+
+/* ---- باکس‌های اپیزود پادکست (صفحه‌ی /podcast/) ---- */
+
+.podcast-card {
+  position: relative;
+  z-index: 0;
+  border-color: transparent !important; /* حاشیه‌ی خاکستریِ قبلی رو با قابِ گرادیانتی عوض می‌کنیم */
+}
+
+.podcast-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: 14px;
+
+  background: var(--noys-shine-gradient);
+  background-size: 300% 300%;
+  animation: noysShineMove 11s ease infinite;
+}
+
+/* کاورِ گرد داخل هر باکسِ اپیزود، همون تویِ صفحه‌ی پادکست */
+.podcast-cover-wrap {
+  position: relative;
+  border-radius: 10px;
+}
+
+.podcast-cover-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: 12px;
+
+  background: var(--noys-shine-gradient);
+  background-size: 300% 300%;
+  animation: noysShineMove 11s ease infinite;
+}
+
+/* کاورِ صفحه‌ی اختصاصیِ هر اپیزود (وقتی پست جداگانه داره) */
+.podcast-episode-cover-wrap {
+  position: relative;
+  border-radius: 12px;
+}
+
+.podcast-episode-cover-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: 14px;
+
+  background: var(--noys-shine-gradient);
+  background-size: 300% 300%;
+  animation: noysShineMove 11s ease infinite;
+}
+
+/* ---- تصویر کاورِ هر مطلبِ مجله (بندانگشتیِ صفحه‌ی اصلی) ---- */
+
+.post-thumbnail {
+  position: relative;
+  z-index: 0;
+}
+
+.post-thumbnail::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: 10px;
+
+  background: var(--noys-shine-gradient);
+  background-size: 300% 300%;
+  animation: noysShineMove 11s ease infinite;
+}
+
+/* =========================================================
+   NOYS - عکسِ بالای صفحه‌ی هر پست: گوشه‌های گردتر + قابِ گرادیانتی
+   این‌جا چون overflow:hidden لازمه (برای افکت پارالاکس عکس)، به‌جای
+   ::before، خودِ فریم (figure) با پدینگ + پس‌زمینه‌ی گرادیانتی
+   تبدیل به یک "قاب" می‌شه و عکس داخلش با گوشه‌های گردتر می‌شینه.
+   ========================================================= */
+
+.article-page .page-cover-image figure {
+  padding: 4px;
+  border-radius: 22px;
+  overflow: hidden;
+
+  background: var(--noys-shine-gradient);
+  background-size: 300% 300%;
+  animation: noysShineMove 11s ease infinite;
+}
+
+.article-page .page-cover-image img {
+  border-radius: 18px;
+}
+
+@media (max-width: 768px) {
+  .article-page .page-cover-image figure {
+    padding: 3px;
+    border-radius: 18px;
+  }
+
+  .article-page .page-cover-image img {
+    border-radius: 14px;
+  }
+}
+
+/* =========================================================
+   NOYS - حاشیه‌ی گرادیانتی دورِ پخش‌کننده‌های پادکست
+   این دو باکس (پخش‌کننده‌ی شناور و پخش‌کننده‌ی داخلِ پست) هم
+   overflow:hidden دارن (برای گردیِ آی‌فریم داخلشون)، پس از روشِ
+   "دو-لایه پس‌زمینه" استفاده می‌کنیم: یک لایه رنگِ خودِ باکس +
+   یک لایه گرادیانت، که فقط توی نوارِ باریکِ border دیده می‌شه.
+   ========================================================= */
+
+.podcast-container {
+  border: 2px solid transparent;
+  background-image: linear-gradient(#fdfdfd, #fdfdfd), var(--noys-shine-gradient);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: auto, 300% 300%;
+  animation: noysShineMove 11s ease infinite;
+}
+
+.noys-floating-player {
+  border: 2px solid transparent !important;
+  background-image: linear-gradient(#fff, #fff), var(--noys-shine-gradient) !important;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: auto, 300% 300% !important;
+  animation: noysShineMove 11s ease infinite;
+}
+
+/* ---- هاورِ ملایم: قابِ گرادیانتی کمی جون می‌گیره ---- */
+
+.posts-list > .post:hover::before,
+.podcast-card:hover::before,
+.post-thumbnail:hover::before {
+  animation-duration: 4s;
+}
+
+/* ---- احترام به تنظیمِ کاهشِ انیمیشن در سیستم‌عامل کاربر ---- */
+
+@media (prefers-reduced-motion: reduce) {
+  .posts-list > .post::before,
+  .podcast-card::before,
+  .podcast-cover-wrap::before,
+  .podcast-episode-cover-wrap::before,
+  .post-thumbnail::before,
+  .article-page .page-cover-image figure,
+  .podcast-container,
+  .noys-floating-player {
+    animation: none !important;
+  }
 }
