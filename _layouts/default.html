@@ -451,10 +451,28 @@
       // اسکریپت‌هایی که داخل محتوای جدید (با innerHTML) اومدن، خودشون اجرا نمی‌شن؛
       // اینجا هرکدوم رو دستی می‌سازیم و اجرا می‌کنیم.
       container.querySelectorAll('script').forEach(function (oldScript) {
+        var type = (oldScript.getAttribute('type') || '').toLowerCase();
+
+        // اسکریپت‌های داده‌ای (مثلاً <script type="application/json"
+        // id="noysCountryData"> توی نقشه‌ی جهان، یا application/ld+json
+        // توی صفحه‌ی پادکست) نیازی به «اجرا شدن» ندارن؛ innerHTML خودش
+        // این تگ‌ها رو با تمام attributeهاشون (از جمله id) درست ساخته.
+        // قبلاً اینجا این‌ها هم بی‌دلیل از نو ساخته می‌شدن و id‌شون گم
+        // می‌شد، پس کدی که با querySelector/getElementById دنبالشون
+        // می‌گشت (مثل خودِ کد نقشه‌ی جهان) دیگه پیداشون نمی‌کرد و بی‌سروصدا
+        // متوقف می‌شد - همون چیزی که باعث می‌شد نقشه بعد از برگشتن از
+        // یک پست، برای همیشه روی «در حال آماده‌سازی» بمونه.
+        if (type === 'application/json' || type === 'application/ld+json') {
+          return;
+        }
+
         var s = document.createElement('script');
-        if (oldScript.src) {
-          s.src = oldScript.src;
-        } else {
+        // همه‌ی attributeها رو کپی کن (نه فقط src)، وگرنه id/type و
+        // بقیه‌ی attributeهای اسکریپت‌های واقعی هم گم می‌شه.
+        Array.prototype.forEach.call(oldScript.attributes, function (attr) {
+          s.setAttribute(attr.name, attr.value);
+        });
+        if (!oldScript.src) {
           s.textContent = oldScript.textContent;
         }
         oldScript.replaceWith(s);
