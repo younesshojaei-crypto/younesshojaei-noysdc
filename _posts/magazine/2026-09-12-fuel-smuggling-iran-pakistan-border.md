@@ -2,7 +2,7 @@
 layout: post
 title: "قاچاق سوخت در مرز ایران و پاکستان؛ اقتصاد سایه‌ای که هر روز میلیون‌ها لیتر بنزین و گازوئیل را جابه‌جا می‌کند"
 date: 2026-09-10
-img:thumbnail.jpeg
+img: magazine/fuel-smuggling-iran-pakistan-border.jpg
 fig-caption: قاچاق سوخت, ایران, پاکستان, بلوچستان, مستند بی‌بی‌سی
 podcast_channel_id:
 podcast_episode_id:
