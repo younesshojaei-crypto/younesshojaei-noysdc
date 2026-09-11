@@ -2,7 +2,7 @@
 layout: post
 title: "ال ماکابلیکو کیست؟ رپری که وزارت خزانه‌داری آمریکا او را «بازوی مالی» یک کارتل خواند"
 date: 2026-09-11
-img: agzine/Featured-Image-El-Makabelico-CDN-May-2026.webp
+img: agzine/download.png
 fig-caption: ریکاردو هرناندز مدرانو، همان که دنیا او را با نقاب و نام «ال ماکابلیکو» می‌شناسد
 podcast_channel_id:
 podcast_episode_id:
