@@ -9,7 +9,7 @@ podcast_episode_id:
 country: MX
 country_name: مکزیک
 categories:
-  - جراءم سازمان‌یافته
+  - جرم سازمان‌یافته
   - بیزینس های ممنوعه
 tags:
   - کارتل_دل_نورسته
