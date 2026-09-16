@@ -2,7 +2,7 @@
 layout: post
 title: چرا سوریه به زنان آموزش می‌دهد تا از گردشگران محافظت کنند؟
 date: 2026-09-16
-img: magazine/syria-women-police-1.jpeg (1).jpg
+img: magazine/syria-women-police-1.jpg
 fig-caption: آموزش زنان پلیس گردشگری در سوریه، استان طرطوس، ۲۰۲۶
 podcast_channel_id:
 podcast_episode_id:
