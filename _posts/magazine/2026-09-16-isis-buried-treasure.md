@@ -2,7 +2,7 @@
 layout: post
 title: "گنجینه مدفون داعش؛ چگونه این گروه دارایی‌هایش را زیر خاک پنهان کرد و چه کسی آنها را پیدا می‌کند؟"
 date: 2026-09-16
-img: isistreasuremainwev.jpg
+img: magazine/isistreasuremainwev.jpg
 fig-caption: کشف مخفیگاه‌های داعش در صحراهای سوریه و عراق
 podcast_channel_id:
 podcast_episode_id:
