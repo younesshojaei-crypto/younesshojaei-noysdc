@@ -107,7 +107,6 @@ tags:
 
 ### منابع
 - [مستند بی‌بی‌سی: بیکرز اسماگلینگ فیول (یوتیوب)](https://youtu.be/wCVw-O_BNwY)
-- [رادیو فردا: ایران روزانه دست‌کم شش میلیون لیتر سوخت به پاکستان قاچاق می‌کند](https://www.radiofarda.com/a/iran-is-smuggling-millions-of-liters-of-fuel-to-pakistan-every-day/33757765.html)
 - [ویکی‌پدیای فارسی: قاچاق سوخت در ایران](https://fa.wikipedia.org/wiki/قاچاق_سوخت_در_ایران)
 - [بهار نیوز: مشارکت مقامات پاکستان در قاچاق سوخت از ایران](https://www.baharnews.ir/news/427464/)
 - [تابناک: قاچاق بنزین در برابر انبه پاکستانی](https://www.tabnak.ir/fa/news/1244209/)
