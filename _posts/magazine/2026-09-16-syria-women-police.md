@@ -10,7 +10,6 @@ country: SY
 country_name: سوریه
 categories:
   - امنیت و نظامی
-  - گردشگری
 tags:
   - پلیس_زن
   - سوریه
