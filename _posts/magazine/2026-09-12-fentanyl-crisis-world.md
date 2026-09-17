@@ -9,7 +9,8 @@ podcast_episode_id:
 country: US
 country_name: ایالات متحده
 categories:
-  - بیزینس های ممنوعه
+  - جرایم سازمان‌یافته و قاچاق
+  - حقوق بشر و اجتماعی
 tags:
   - فنتانیل
   - کارتل_دل_نورسته

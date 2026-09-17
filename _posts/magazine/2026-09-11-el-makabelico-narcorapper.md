@@ -9,8 +9,7 @@ podcast_episode_id:
 country: MX
 country_name: مکزیک
 categories:
-  - جرم سازمان‌یافته
-  - بیزینس های ممنوعه
+  - جرایم سازمان‌یافته و قاچاق
 tags:
   - ال_ماکابلیکو
   - کارتل_دل_نورسته

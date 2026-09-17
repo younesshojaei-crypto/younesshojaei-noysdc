@@ -9,8 +9,6 @@ podcast_episode_id: "983635911"
 country: IQ
 country_name: عراق
 categories:
-  - نظامی
-  - قاچاق
   - بیزینس های ممنوعه
 tags:
   - کسب_و_کار_سایه

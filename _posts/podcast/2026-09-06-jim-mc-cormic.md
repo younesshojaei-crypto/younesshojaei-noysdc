@@ -9,7 +9,7 @@ podcast_channel_id: "7361321"
 podcast_episode_id: "984910278"
 categories:
   - podcast
-  - معامله ی فریبکارانه
+  - کلاهبرداری‌های بزرگ
 tags:
   - NOYS
   - PODCAST

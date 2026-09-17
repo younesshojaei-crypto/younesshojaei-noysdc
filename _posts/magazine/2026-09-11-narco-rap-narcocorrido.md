@@ -9,7 +9,7 @@ podcast_episode_id:
 country: MX
 country_name: مکزیک
 categories:
-  - جرم سازمان‌یافته
+  - جرایم سازمان‌یافته و قاچاق
 tags:
   - نارکو_رپ
   - نارکوکوریدو

@@ -9,8 +9,7 @@ podcast_episode_id:
 country: PK
 country_name: پاکستان
 categories:
-  - قاچاق سوخت
-  - بیزینس های ممنوعه
+  - جرایم سازمان‌یافته و قاچاق
 tags:
  - قاچاق_سوخت
   - ایران

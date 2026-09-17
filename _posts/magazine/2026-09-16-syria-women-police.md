@@ -9,8 +9,7 @@ podcast_episode_id:
 country: SY
 country_name: سوریه
 categories:
-  - زنان
-  - امنیت
+  - امنیت و نظامی
   - گردشگری
 tags:
   - پلیس_زن

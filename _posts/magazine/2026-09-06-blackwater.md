@@ -9,8 +9,7 @@ podcast_episode_id:
 country: US
 country_name: آمریکا
 categories:
-  - نظامی
-  - فساد_مالی
+  - امنیت و نظامی
 tags:
   - بلک_واتر
   - Blackwater

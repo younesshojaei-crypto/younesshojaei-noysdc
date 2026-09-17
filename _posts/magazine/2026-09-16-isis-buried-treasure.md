@@ -9,9 +9,8 @@ podcast_episode_id:
 country: SY
 country_name: سوریه
 categories:
-  - تروریسم
-  - مالی
-  - خاورمیانه
+  - امنیت و نظامی
+  - جرایم سازمان‌یافته و قاچاق
 tags:
   - داعش
   - سوریه

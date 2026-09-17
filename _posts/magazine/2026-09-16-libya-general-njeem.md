@@ -9,9 +9,7 @@ podcast_episode_id:
 country: LY
 country_name: لیبی
 categories:
-  - حقوق_بشر
-  - سیاست_بین‌الملل
-  - مهاجرت
+  - امنیت و نظامی
 tags:
   - لیبی
   - ایتالیا

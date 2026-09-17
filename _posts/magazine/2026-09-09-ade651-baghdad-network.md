@@ -9,7 +9,7 @@ podcast_episode_id:
 country: IQ
 country_name: عراق
 categories:
-  - نظامی
+  - کلاهبرداری‌های بزرگ
 tags:
   - ADE_651
   - جیم_مک‌کورمیک

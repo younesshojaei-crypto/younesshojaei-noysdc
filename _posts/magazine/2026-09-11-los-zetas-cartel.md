@@ -9,8 +9,7 @@ podcast_episode_id:
 country: MX
 country_name: مکزیک
 categories:
-  - جرم سازمان‌یافته
-  - نظامی
+  - جرایم سازمان‌یافته و قاچاق
 tags:
   - لوس_زتاس
   - GAFE

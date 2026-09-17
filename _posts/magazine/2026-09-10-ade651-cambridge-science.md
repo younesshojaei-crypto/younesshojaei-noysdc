@@ -9,8 +9,7 @@ podcast_episode_id:
 country: GB
 country_name: بریتانیا
 categories:
-  - معامله ی فریبکارانه
-  - بیزینس های ممنوعه
+  - کلاهبرداری‌های بزرگ
 tags:
   - ADE_651
   - جیم_مک‌کورمیک
