@@ -15,12 +15,31 @@
 	</script>
 
 	<meta charset="utf-8">
-	<title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+
+	<!-- SEO: عنوان صفحه اصلی جدا از بقیه صفحاته (کامل‌تر و شامل کلمات کلیدی هدف)
+	     چون صفحه اصلی مهم‌ترین صفحه برای رتبه گرفتن روی «پادکست فارسی» و مشابه‌شه.
+	     برای پست‌ها و صفحات دیگه، فقط «عنوان پست - NOYS» نشون داده میشه تا کوتاه و
+	     خوانا بمونه و توی نتایج گوگل قطع نشه. -->
+	{% if page.url == "/" %}
+	<title>{{ site.home-title | default: site.title }}</title>
+	{% elsif page.title %}
+	<title>{{ page.title }} - {{ site.title }}</title>
+	{% else %}
+	<title>{{ site.title }}</title>
+	{% endif %}
+
+	<!-- SEO: توضیح متا. اگه پست خودش description نداشته باشه، به‌جای توضیح
+	     تکراری کل سایت، از خلاصه (excerpt) همون پست استفاده می‌کنیم؛ یعنی
+	     همه‌ی پست‌های مجله بدون نیاز به ویرایش دستی، توضیح منحصربه‌فرد خودشون
+	     رو می‌گیرن. اگه پستی هم excerpt نداشت، توضیح کلی سایت جایگزین میشه. -->
+	{% assign page-desc = page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 160 %}
+	{% assign meta-desc = page-desc | default: site.description %}
 
 	<meta content="{{ site.title }}" property="og:site_name">
-	<meta content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}" property="og:title">
+	<meta content="{% if page.url == '/' %}{{ site.home-title | default: site.title }}{% elsif page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}" property="og:title">
 	<meta content="{% if page.title %}article{% else %}website{% endif %}" property="og:type">
-	<meta content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}" property="og:description">
+	<meta content="{{ meta-desc }}" property="og:description">
+	<meta content="fa_IR" property="og:locale">
 	{% if page.url %}
 		<meta content="{{ site.url }}{{ site.baseurl }}{{ page.url }}" property="og:url">
 	{% endif %}
@@ -35,9 +54,9 @@
 
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-	<meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+	<meta name="twitter:description" content="{{ meta-desc }}">
 
-	<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+	<meta name="description" content="{{ meta-desc }}">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -74,13 +93,18 @@
 	  "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
 	  "author": {
 	    "@type": "Person",
-	    "name": {{ site.author | jsonify }}
+	    "name": {{ site.author | jsonify }},
+	    "sameAs": [
+	      "{{ site.social-instagram }}",
+	      "{{ site.social-youtube }}",
+	      "{{ site.social-telegram }}"
+	    ]
 	  },
 	  "publisher": {
 	    "@type": "Organization",
-	    "name": {{ site.title | jsonify }}
+	    "name": {{ site.brand | default: site.title | jsonify }}
 	  },
-	  "description": {{ page.description | default: site.description | jsonify }},
+	  "description": {{ meta-desc | jsonify }},
 	  "mainEntityOfPage": "{{ site.url }}{{ site.baseurl }}{{ page.url }}"
 	  {% if page.img %}
 	  ,"image": "{{ site.url }}{{ site.baseurl }}/assets/img/{{ page.img }}"
@@ -88,5 +112,35 @@
 	}
 	</script>
 	{% endif %}
+
+	<!-- Structured Data (JSON-LD) برای صفحه اصلی: به گوگل مستقیم می‌گه
+	     این سایت یک پادکسته، تا شانس نمایش توی نتایج مخصوص پادکست رو داشته باشه. -->
+	{% if page.url == "/" %}
+	<script type="application/ld+json">
+	{
+	  "@context": "https://schema.org",
+	  "@type": "PodcastSeries",
+	  "name": "نویز - پادکست فارسی جنایی و ترو کرایم",
+	  "url": "{{ site.url }}{{ site.baseurl }}/podcast/",
+	  "description": {{ site.description | jsonify }},
+	  "inLanguage": "fa",
+	  "webFeed": "{{ site.url }}{{ site.baseurl }}/feed.xml",
+	  "author": {
+	    "@type": "Person",
+	    "name": {{ site.author | jsonify }},
+	    "sameAs": [
+	      "{{ site.social-instagram }}",
+	      "{{ site.social-youtube }}",
+	      "{{ site.social-telegram }}"
+	    ]
+	  },
+	  "publisher": {
+	    "@type": "Organization",
+	    "name": {{ site.brand | default: site.title | jsonify }}
+	  }
+	}
+	</script>
+	{% endif %}
+
 <link rel="manifest" href="{{ site.baseurl }}/manifest.json">
 </head>
