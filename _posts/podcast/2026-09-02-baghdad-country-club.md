@@ -1,10 +1,10 @@
 ---
 layout: podcast-post
 title: "
-کانتری کلاب بغداد: بیزینسی که در قلب جنگ بغداد متولد شد"
+نویز | اپیزود 01 : کانتری کلاب بغداد (بارِ ممنوعه ای در دل جنگ)"
 date: 2026-09-02 00:47:00 +0330
-img: podcast/baghdad-country-club-shadow-business02.jpg
-fig-caption: "کانتری کلاب بغداد: بیزینسی که در قلب جنگ بغداد متولد شد"
+img: podcast/EP-01.jpg
+fig-caption: "نویز | اپیزود 01 : کانتری کلاب بغداد (بارِ ممنوعه ای در دل جنگ)"
 podcast_channel_id: "7361321"
 podcast_episode_id: "983635911"
 categories:
