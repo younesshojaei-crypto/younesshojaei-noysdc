@@ -4,8 +4,8 @@ title: جودی هریس کیست؟ کلاه‌بردار استرالیایی �
 date: 2026-09-18
 img: magazine/jody-harris04.webp
 fig-caption: جودی هریس، زنی که در استرالیا به «شبح» و «کلاه‌بردار شکار من اگه می‌تونی» معروف شد
-podcast_channel_id: "7361321"
-podcast_episode_id: "999626138"
+podcast_channel_id: ""
+podcast_episode_id: ""
 country: AU
 country_name: استرالیا
 categories:
