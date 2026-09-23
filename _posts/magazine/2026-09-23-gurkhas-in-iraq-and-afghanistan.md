@@ -80,7 +80,7 @@ tags:
 
 ### منابع
 - [The Gurkha Museum, Winchester: Gurkhas in Iraq and Afghanistan](https://thegurkhamuseum.co.uk/blog/gurkhas-in-iraq-and-afghanistan/)
-- [نویز | اپیزود ۰۱: کانتری کلاب بغداد (Castbox)](https://castbox.fm/episode/%E2%80%8Bنویز-|-اپیزود-01-%3A-کانتری-کلاب-بغداد-(بارِ-ممنوعه-ای-در-دل-جنگ)-id7361321-id983635911)
+- [نویز | اپیزود ۰۱: کانتری کلاب بغداد (Castbox)](https://https://castbox.fm/ch/7361321)
 - [G4S Gurkha Services — بزرگ‌ترین استخدام‌کننده‌ی گورکاهای سابق ارتش بریتانیا](https://www.g4s.com/riskmanagement/global-reach/iraq)
 - [ArmorGroup — ویکی‌پدیای انگلیسی](https://en.wikipedia.org/wiki/ArmorGroup)
 
