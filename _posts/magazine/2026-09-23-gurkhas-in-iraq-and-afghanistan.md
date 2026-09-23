@@ -2,7 +2,7 @@
 layout: post
 title: "گورکاها در خاورمیانه؛ سربازانی که در سکوت می‌جنگند"
 date: 2026-09-23
-img: magazine/syria-women-police-6.jpg
+img: magazine/Advisorforceprotectionatwork.jpg
 fig-caption: گورکا, نپال, ارتش بریتانیا, عراق, افغانستان, پیمانکاران امنیتی
 podcast_channel_id: 
 podcast_episode_id: 
